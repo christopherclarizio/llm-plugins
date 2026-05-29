@@ -17,6 +17,25 @@ Plugins created by others and published via git are included in this repository 
 # etc...
 ```
 
+## Plugins
+| Plugin | Description |
+|--------|-------------|
+| **`ed3d-00-getting-started`** | Getting started guide and onboarding for ed3d-plugins. Run `/getting-started` to see this README. |
+| **`ed3d-plan-and-execute`** | Planning and execution workflows for Claude Code. Feed it a decent-sized task and it'll help you get it done in a sustainable and thought-through way |
+| **`ed3d-house-style`** | House style for software development; Very Opinionated |
+| **`ed3d-basic-agents`** | Core agents for general-purpose tasks (haiku, sonnet, opus). Other plugins expect this to exist |
+| **`ed3d-research-agents`** | Agents for research across multiple data sources (codebase, internet, combined); other plugins expect this to exist |
+| **`ed3d-extending-claude`** | Knowledge skills for extending Claude Code: plugins, commands, agents, skills, hooks, MCP servers. Other plugins expect this to exist |
+| **`ed3d-playwright`**| Playwright automation with subagents |
+| **`ed3d-hook-skill-reinforcement`** | UserPromptSubmit hook that reinforces the need to activate skills—helps make sure skills actually get used. Requires `ed3d-extending-claude` to work |
+| **`ed3d-hook-claudemd-reminder`** | PostToolUse hook that reminds to update CLAUDE.md before committing |
+| **`ed3d-hook-security-hardening`** | PreToolUse and PostToolUse hooks that catch secrets leakage patterns |
+| **`ed3d-session-reflection`** | EXPERIMENTAL. Session awareness and conversation review tooling. Requires `ed3d-extending-claude` |
+| **`learning-opportunities`** | Suggest learning exercises after completing architectural work |
+| **`learning-opportunities-auto`** | Automatic version of **`learning-opportunities`** |
+| **`orient`** | Create lessons to familiarize a repository and bodebase |
+| **`learning-goal`** | Structured interactive goal setting |
+
 ## DIYing
 I setup this repository to centralize where the plugins I use are stored. The use of subtrees allows me to customize any plugin, including those authored by others, and pull upstream changes and contribute changes back upstream. If that aligns with your goals, consider making your own version of this repository — it is public so that you can do so.
 
