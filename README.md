@@ -3,6 +3,20 @@ This repository contains the [Claude Code plugins](https://code.claude.com/docs/
 
 Plugins created by others and published via git are included in this repository in `/sources` as forks of the original repository via git subtrees. For attribution and notice of modification see: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
+## Installation 
+
+**Add the marketplace**
+```sh
+/plugin marketplace add https://github.com/christopherclarizio/llm-plugins
+```
+
+**Install plugins**
+```sh
+/plugin install learning-goal
+/plugin install learning-opportunities
+# etc...
+```
+
 ## DIYing
 I setup this repository to centralize where the plugins I use are stored. The overhead of subtrees, flattening, etc. are all in order to also allow me to: customize any plugin, including those authored by others, and pull upstream changes and contribute changes back upstream. If that aligns with your goals, consider making your own version of this repository and it is public so that you can do so.
 
