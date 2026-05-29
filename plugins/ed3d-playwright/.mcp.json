@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ed3d-playwright-internal": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@0.0.48",
+        "--allowed-hosts", "*",
+        "--isolated",
+        "--caps=vision"
+      ]
+    }
+  }
+}

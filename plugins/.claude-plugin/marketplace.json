@@ -1,0 +1,174 @@
+{
+    "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+    "plugins": [
+        {
+            "name": "ed3d-plan-and-execute",
+            "description": "Planning and execution workflows for Claude Code. Based on obra/superpowers.",
+            "version": "1.11.0",
+            "source": "./plugins/ed3d-plan-and-execute",
+            "author": {
+                "name": "Ed",
+                "email": "ed@ed3d.net"
+            }
+        },
+        {
+            "name": "ed3d-house-style",
+            "description": "ed3d's house style for software development",
+            "version": "1.1.0",
+            "source": "./plugins/ed3d-house-style",
+            "author": {
+                "name": "Ed",
+                "email": "ed@ed3d.net"
+            }
+        },
+        {
+            "name": "ed3d-basic-agents",
+            "description": "Core agents for general-purpose tasks. Other plugins expect this to exist.",
+            "version": "1.1.0",
+            "source": "./plugins/ed3d-basic-agents",
+            "author": {
+                "name": "Ed",
+                "email": "ed@ed3d.net"
+            },
+            "license": "UNLICENSED"
+        },
+        {
+            "name": "ed3d-research-agents",
+            "description": "Agents used for research across multiple data sources.",
+            "version": "1.1.0",
+            "source": "./plugins/ed3d-research-agents",
+            "author": {
+                "name": "Ed",
+                "email": "ed@ed3d.net"
+            },
+            "license": "UNLICENSED"
+        },
+        {
+            "name": "ed3d-extending-claude",
+            "description": "Knowledge skills for extending Claude Code: creating plugins, commands, agents, skills, hooks, MCP servers, and marketplace management",
+            "version": "1.1.1",
+            "source": "./plugins/ed3d-extending-claude",
+            "author": {
+                "name": "Ed",
+                "email": "ed@ed3d.net"
+            },
+            "license": "UNLICENSED",
+            "keywords": [
+                "plugins",
+                "skills",
+                "documentation",
+                "reference",
+                "knowledge"
+            ]
+        },
+        {
+            "name": "ed3d-playwright",
+            "description": "Playwright automation toolkit with MCP integration, specialized agent for browser control, and best practice skills",
+            "version": "1.0.1",
+            "source": "./plugins/ed3d-playwright",
+            "author": {
+                "name": "Ed",
+                "email": "ed@ed3d.net"
+            },
+            "license": "UNLICENSED",
+            "keywords": [
+                "playwright",
+                "browser-automation",
+                "testing",
+                "e2e",
+                "web-scraping"
+            ]
+        },
+        {
+            "name": "ed3d-session-reflection",
+            "description": "EXPERIMENTAL. Session awareness and conversation review tooling. Captures session metadata via SessionStart hook and provides conversation review agents and skills for analyzing prompting effectiveness, agent performance, and environment gaps.",
+            "version": "0.2.0",
+            "source": "./plugins/ed3d-session-reflection",
+            "author": {
+                "name": "Ed",
+                "email": "ed@ed3d.net"
+            },
+            "license": "UNLICENSED",
+            "keywords": [
+                "hooks",
+                "session",
+                "review",
+                "analysis",
+                "prompting",
+                "experimental"
+            ]
+        },
+        {
+            "name": "learning-goal",
+            "description": "Structured goal-setting exercise using Mental Contrasting with Implementation Intentions",
+            "version": "1.0.0",
+            "author": {
+                "name": "Dr. Cat Hicks"
+            },
+            "source": "./plugins/learning-goal",
+            "category": "learning",
+            "tags": [
+                "learning",
+                "goals",
+                "MCII",
+                "skill-development"
+            ]
+        },
+        {
+            "name": "learning-opportunities-auto",
+            "source": "./plugins/learning-opportunities-auto",
+            "description": "Automatically nudges Claude to offer learning exercises after git commits. Requires the learning-opportunities plugin.",
+            "version": "1.0.1",
+            "author": {
+                "name": "Dr. Cat Hicks",
+                "email": "dr.cat.hicks@gmail.com"
+            },
+            "license": "CC-BY-4.0",
+            "keywords": [
+                "learning",
+                "education",
+                "skill-development",
+                "expertise",
+                "learning-science",
+                "hooks"
+            ],
+            "category": "education"
+        },
+        {
+            "name": "learning-opportunities",
+            "source": "./plugins/learning-opportunities",
+            "description": "Science-based learning exercises for deliberate skill development during AI-assisted coding",
+            "version": "1.0.0",
+            "author": {
+                "name": "Dr. Cat Hicks",
+                "email": "dr.cat.hicks@gmail.com"
+            },
+            "license": "CC-BY-4.0",
+            "keywords": [
+                "learning",
+                "education",
+                "skill-development",
+                "expertise",
+                "learning-science"
+            ],
+            "category": "education"
+        },
+        {
+            "name": "orient",
+            "source": "./plugins/orient",
+            "description": "Generates a repo-specific orientation.md for use with the learning-opportunities skill",
+            "version": "1.0.0",
+            "author": {
+                "name": "Dr. Michael Mullarkey"
+            },
+            "license": "CC-BY-4.0",
+            "keywords": [
+                "orientation",
+                "onboarding",
+                "learning",
+                "codebase"
+            ],
+            "category": "education"
+        }
+    ]
+}
