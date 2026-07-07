@@ -9,7 +9,7 @@
             "name": "ed3d-plan-and-execute",
             "description": "Planning and execution workflows for Claude Code. Based on obra/superpowers.",
             "version": "1.11.0",
-            "source": "../../vended/ed3d-plugins/plugins/ed3d-plan-and-execute",
+            "source": "./vended/ed3d-plugins/plugins/ed3d-plan-and-execute",
             "author": {
                 "name": "Ed",
                 "email": "ed@ed3d.net"
@@ -19,7 +19,7 @@
             "name": "ed3d-house-style",
             "description": "ed3d's house style for software development",
             "version": "1.1.0",
-            "source": "../../vended/ed3d-plugins/plugins/ed3d-house-style",
+            "source": "./vended/ed3d-plugins/plugins/ed3d-house-style",
             "author": {
                 "name": "Ed",
                 "email": "ed@ed3d.net"
@@ -29,7 +29,7 @@
             "name": "ed3d-basic-agents",
             "description": "Core agents for general-purpose tasks. Other plugins expect this to exist.",
             "version": "1.1.0",
-            "source": "../../vended/ed3d-plugins/plugins/ed3d-basic-agents",
+            "source": "./vended/ed3d-plugins/plugins/ed3d-basic-agents",
             "author": {
                 "name": "Ed",
                 "email": "ed@ed3d.net"
@@ -40,7 +40,7 @@
             "name": "ed3d-research-agents",
             "description": "Agents used for research across multiple data sources.",
             "version": "1.1.0",
-            "source": "../../vended/ed3d-plugins/plugins/ed3d-research-agents",
+            "source": "./vended/ed3d-plugins/plugins/ed3d-research-agents",
             "author": {
                 "name": "Ed",
                 "email": "ed@ed3d.net"
@@ -51,7 +51,7 @@
             "name": "ed3d-extending-claude",
             "description": "Knowledge skills for extending Claude Code: creating plugins, commands, agents, skills, hooks, MCP servers, and marketplace management",
             "version": "1.1.1",
-            "source": "../../vended/ed3d-plugins/plugins/ed3d-extending-claude",
+            "source": "./vended/ed3d-plugins/plugins/ed3d-extending-claude",
             "author": {
                 "name": "Ed",
                 "email": "ed@ed3d.net"
@@ -69,7 +69,7 @@
             "name": "ed3d-playwright",
             "description": "Playwright automation toolkit with MCP integration, specialized agent for browser control, and best practice skills",
             "version": "1.0.1",
-            "source": "../../vended/ed3d-plugins/plugins/ed3d-playwright",
+            "source": "./vended/ed3d-plugins/plugins/ed3d-playwright",
             "author": {
                 "name": "Ed",
                 "email": "ed@ed3d.net"
@@ -87,7 +87,7 @@
             "name": "ed3d-session-reflection",
             "description": "EXPERIMENTAL. Session awareness and conversation review tooling. Captures session metadata via SessionStart hook and provides conversation review agents and skills for analyzing prompting effectiveness, agent performance, and environment gaps.",
             "version": "0.2.0",
-            "source": "../../vended/ed3d-plugins/plugins/ed3d-session-reflection",
+            "source": "./vended/ed3d-plugins/plugins/ed3d-session-reflection",
             "author": {
                 "name": "Ed",
                 "email": "ed@ed3d.net"
@@ -109,7 +109,7 @@
             "author": {
                 "name": "Dr. Cat Hicks"
             },
-            "source": "../../vended/learning-goal/learning-goal",
+            "source": "./vended/learning-goal/learning-goal",
             "category": "learning",
             "tags": [
                 "learning",
@@ -120,7 +120,7 @@
         },
         {
             "name": "learning-opportunities-auto",
-            "source": "../../vended/learning-opportunities/learning-opportunities-auto",
+            "source": "./vended/learning-opportunities/learning-opportunities-auto",
             "description": "Automatically nudges Claude to offer learning exercises after git commits. Requires the learning-opportunities plugin.",
             "version": "1.0.1",
             "author": {
@@ -140,7 +140,7 @@
         },
         {
             "name": "learning-opportunities",
-            "source": "../../vended/learning-opportunities/learning-opportunities",
+            "source": "./vended/learning-opportunities/learning-opportunities",
             "description": "Science-based learning exercises for deliberate skill development during AI-assisted coding",
             "version": "1.0.0",
             "author": {
@@ -159,7 +159,7 @@
         },
         {
             "name": "orient",
-            "source": "../../vended/learning-opportunities/orient",
+            "source": "./vended/learning-opportunities/orient",
             "description": "Generates a repo-specific orientation.md for use with the learning-opportunities skill",
             "version": "1.0.0",
             "author": {
