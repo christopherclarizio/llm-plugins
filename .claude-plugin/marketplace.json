@@ -1,5 +1,9 @@
 {
     "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+    "name": "llm-plugins",
+    "owner": {
+        "name": "Christopher Clarizio"
+    },
     "plugins": [
         {
             "name": "ed3d-plan-and-execute",
