@@ -35,6 +35,7 @@ All plugins created by others and published via git are included in this reposit
 | **`learning-opportunities-auto`** | Automatic version of **`learning-opportunities`** |
 | **`orient`** | Create lessons to familiarize a repository and bodebase |
 | **`learning-goal`** | Structured interactive goal setting |
+| **`clarizio-documentation`** | Structured documentation of code and product |
 
 ### Use
 
