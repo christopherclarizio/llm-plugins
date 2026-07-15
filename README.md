@@ -1,7 +1,7 @@
 # LLM Agent Plugins
-This repository contains the [Claude Code plugins](https://code.claude.com/docs/en/plugins) created by myself and others that I find worthwhile.
+This repository contains [Claude Code plugins](https://code.claude.com/docs/en/plugins) that I find worthwhile to use.
 
-All plugins created by others and published via git are included in this repository in `/vended` as forks of the original repository via git subtrees. For attribution and notice of modification see: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+All plugins that I did not create are included in this repository in `/vended`. Those plugins that were distributed via git are included as forks of the original repository via git subtrees. For attribution and notice of modification see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
 ## Installation 
 
