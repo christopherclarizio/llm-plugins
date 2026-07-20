@@ -190,6 +190,24 @@
                 "codebase"
             ],
             "category": "education"
+        },
+        {
+            "name": "model-ideas-to-tickets",
+            "description": "Turns rough ideas into concise, codebase-grounded Jira tickets, written files-first with best-effort Jira creation when a Jira/Atlassian MCP is connected.",
+            "version": "0.1.0",
+            "source": "./plugins/model-ideas-to-tickets",
+            "author": {
+                "name": "Chris Clarizio",
+                "email": "cclarizio@adobe.com"
+            },
+            "keywords": [
+                "jira",
+                "tickets",
+                "planning",
+                "ideation",
+                "codebase-grounding",
+                "productivity"
+            ]
         }
     ]
 }

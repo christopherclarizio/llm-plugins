@@ -1,0 +1,30 @@
+{
+  "name": "model-ideas-to-tickets",
+  "version": "0.1.0",
+  "description": "Turn rough ideas into concise, codebase-grounded Jira tickets.",
+  "author": {
+    "name": "Chris Clarizio",
+    "email": "cclarizio@adobe.com"
+  },
+  "keywords": [
+    "jira",
+    "tickets",
+    "planning",
+    "ideation",
+    "codebase-grounding",
+    "productivity"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Model Ideas to Tickets",
+    "shortDescription": "Turn rough ideas into codebase-grounded Jira tickets",
+    "longDescription": "A staged orchestrator skill that refines vague ideas, sanity-checks them against the codebase, structures them into a concise ticket hierarchy written to Markdown files, and offers best-effort Jira creation when a Jira/Atlassian MCP is connected.",
+    "developerName": "Chris Clarizio",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Turn these ideas into well-organized Jira tickets"
+    ],
+    "brandColor": "#2563EB"
+  }
+}

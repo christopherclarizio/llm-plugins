@@ -99,6 +99,18 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Education"
+    },
+    {
+      "name": "model-ideas-to-tickets",
+      "source": {
+        "source": "local",
+        "path": "./plugins/model-ideas-to-tickets"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
     }
   ]
 }

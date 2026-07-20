@@ -54,6 +54,7 @@ The Codex marketplace includes the Codex-native plugins listed below: `clarizio-
 | **`orient`** | Create lessons to familiarize a repository and bodebase |
 | **`learning-goal`** | Structured interactive goal setting |
 | **`clarizio-documentation`** | Structured documentation of code and product |
+| **`model-ideas-to-tickets`** | Turn rough ideas into concise, codebase-grounded Jira tickets; files-first with best-effort Jira MCP creation |
 
 ### Use
 
