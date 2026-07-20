@@ -1,9 +1,27 @@
 # LLM Agent Plugins
-This repository contains [Claude Code plugins](https://code.claude.com/docs/en/plugins) that I find worthwhile to use.
+This repository contains plugins for LLM coding agents that I find worthwhile to use. It is a marketplace for both [Claude Code plugins](https://code.claude.com/docs/en/plugins) and Codex plugins.
 
 All plugins that I did not create are included in this repository in `/vended`. Those plugins that were distributed via git are included as forks of the original repository via git subtrees. For attribution and notice of modification see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
-## Installation 
+## Installation
+
+### Codex
+
+**Add the marketplace**
+```sh
+codex plugin marketplace add https://github.com/christopherclarizio/llm-plugins.git
+```
+
+**Install plugins**
+```sh
+codex plugin add clarizio-documentation@llm-plugins
+codex plugin add learning-goal@llm-plugins
+# etc...
+```
+
+The Codex marketplace includes the Codex-native plugins listed below: `clarizio-documentation`, `ed3d-plan-and-execute`, `ed3d-house-style`, `ed3d-playwright`, `learning-goal`, `learning-opportunities`, `learning-opportunities-auto`, and `orient`. The remaining packages currently rely on Claude-specific agents or hooks and remain available through the Claude Code marketplace.
+
+### Claude Code
 
 **Add the marketplace**
 ```sh
@@ -40,10 +58,10 @@ All plugins that I did not create are included in this repository in `/vended`. 
 ### Use
 
 **Create a plugin in this repository**:
-Create a new plugin folder anywhere under  with a `.claude-plugin/plugin.json` manifest, then add an entry pointing at its path to `.claude-plugin/marketplace.json`.
+Create a new plugin folder anywhere under `plugins/` with a `.claude-plugin/plugin.json` manifest. To make it available in Codex too, add a `.codex-plugin/plugin.json` manifest and an entry pointing at its path in `.agents/plugins/marketplace.json`; then add the Claude entry in `.claude-plugin/marketplace.json`.
 
 **Add a plugin from another repository**:
-Add the repository with the plugin to `/vended` as a git subtree, then add an entry pointing at the plugin's path to `.claude-plugin/marketplace.json`. If you are adding a plugin authored by someone else, you need to fork their repository and add the fork as a subtree.
+Add the repository with the plugin to `/vended` as a git subtree, then add an entry pointing at the plugin's path to `.claude-plugin/marketplace.json`. If the plugin has a compatible `.codex-plugin/plugin.json`, add it to `.agents/plugins/marketplace.json` too. If you are adding a plugin authored by someone else, you need to fork their repository and add the fork as a subtree.
 ```sh
 # add a plugin from a separate repository
 git subtree add --prefix=vended/<repo-name> https://github.com/<you-or-your-org>/<repo-name>.git <target-branch> --squash

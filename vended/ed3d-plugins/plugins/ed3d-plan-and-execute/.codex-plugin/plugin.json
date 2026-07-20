@@ -1,0 +1,30 @@
+{
+  "name": "ed3d-plan-and-execute",
+  "version": "1.11.0",
+  "description": "Planning and execution workflows for software development.",
+  "author": {
+    "name": "Ed",
+    "email": "ed@ed3d.net"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "planning",
+    "execution",
+    "tdd",
+    "debugging",
+    "workflows"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Plan and Execute",
+    "shortDescription": "Plan, implement, and verify software changes",
+    "longDescription": "Provides planning, execution, debugging, testing, and verification workflows for software development.",
+    "developerName": "Ed",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Create an implementation plan for this task"
+    ],
+    "brandColor": "#7C3AED"
+  }
+}

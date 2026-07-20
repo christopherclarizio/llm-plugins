@@ -1,0 +1,29 @@
+{
+  "name": "clarizio-documentation",
+  "version": "0.1.0",
+  "description": "Hierarchical, agent-first documentation for a codebase and its product.",
+  "author": {
+    "name": "Chris Clarizio",
+    "email": "cclarizio@adobe.com"
+  },
+  "keywords": [
+    "documentation",
+    "architecture",
+    "onboarding",
+    "progressive-disclosure",
+    "staleness"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Clarizio Documentation",
+    "shortDescription": "Build and maintain structured product documentation",
+    "longDescription": "Adds an agent-first documentation router, templates, and a staleness contract for documenting codebases and products.",
+    "developerName": "Chris Clarizio",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Create or update documentation for this codebase"
+    ],
+    "brandColor": "#2563EB"
+  }
+}

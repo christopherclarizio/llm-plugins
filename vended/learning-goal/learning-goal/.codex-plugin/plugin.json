@@ -1,0 +1,28 @@
+{
+  "name": "learning-goal",
+  "version": "1.0.0",
+  "description": "A structured goal-setting exercise grounded in MCII research.",
+  "author": {
+    "name": "Dr. Cat Hicks"
+  },
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "learning",
+    "goals",
+    "MCII",
+    "skill-development"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Learning Goal",
+    "shortDescription": "Set concrete learning goals with if-then plans",
+    "longDescription": "Guides developers through a research-based goal-setting exercise using Mental Contrasting with Implementation Intentions.",
+    "developerName": "Dr. Cat Hicks",
+    "category": "Education",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Help me set a learning goal"
+    ],
+    "brandColor": "#2563EB"
+  }
+}

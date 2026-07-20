@@ -1,0 +1,104 @@
+{
+  "name": "llm-plugins",
+  "interface": {
+    "displayName": "LLM Agent Plugins"
+  },
+  "plugins": [
+    {
+      "name": "clarizio-documentation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/clarizio-documentation"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "ed3d-plan-and-execute",
+      "source": {
+        "source": "local",
+        "path": "./vended/ed3d-plugins/plugins/ed3d-plan-and-execute"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "ed3d-house-style",
+      "source": {
+        "source": "local",
+        "path": "./vended/ed3d-plugins/plugins/ed3d-house-style"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "ed3d-playwright",
+      "source": {
+        "source": "local",
+        "path": "./vended/ed3d-plugins/plugins/ed3d-playwright"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "learning-goal",
+      "source": {
+        "source": "local",
+        "path": "./vended/learning-goal/learning-goal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    },
+    {
+      "name": "learning-opportunities",
+      "source": {
+        "source": "local",
+        "path": "./vended/learning-opportunities/learning-opportunities"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    },
+    {
+      "name": "learning-opportunities-auto",
+      "source": {
+        "source": "local",
+        "path": "./vended/learning-opportunities/learning-opportunities-auto"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    },
+    {
+      "name": "orient",
+      "source": {
+        "source": "local",
+        "path": "./vended/learning-opportunities/orient"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    }
+  ]
+}

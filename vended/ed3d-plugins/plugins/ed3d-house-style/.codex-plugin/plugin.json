@@ -1,0 +1,30 @@
+{
+  "name": "ed3d-house-style",
+  "version": "1.1.0",
+  "description": "Opinionated software development practices and writing guidance.",
+  "author": {
+    "name": "Ed",
+    "email": "ed@ed3d.net"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "testing",
+    "debugging",
+    "collaboration",
+    "best-practices",
+    "workflows"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "ed3d House Style",
+    "shortDescription": "Apply opinionated engineering and writing practices",
+    "longDescription": "Provides practical guidance for effective software engineering, testing, debugging, and technical communication.",
+    "developerName": "Ed",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Apply the house style while helping with this task"
+    ],
+    "brandColor": "#0F766E"
+  }
+}

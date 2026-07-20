@@ -1,0 +1,33 @@
+{
+  "name": "ed3d-playwright",
+  "version": "1.0.1",
+  "description": "Playwright automation guidance with an MCP browser-control server.",
+  "author": {
+    "name": "Ed",
+    "email": "ed@ed3d.net"
+  },
+  "homepage": "https://github.com/ed3dai/ed3d-playwright",
+  "repository": "https://github.com/ed3dai/ed3d-playwright",
+  "license": "UNLICENSED",
+  "keywords": [
+    "playwright",
+    "browser-automation",
+    "testing",
+    "e2e"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "ed3d Playwright",
+    "shortDescription": "Browser automation guidance and MCP integration",
+    "longDescription": "Adds Playwright patterns and debugging guidance alongside an MCP server for browser automation.",
+    "developerName": "Ed",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://github.com/ed3dai/ed3d-playwright",
+    "defaultPrompt": [
+      "Help me test this application with Playwright"
+    ],
+    "brandColor": "#2EAD33"
+  }
+}
