@@ -1,14 +1,14 @@
 ---
-name: model-ideas-to-tickets
+name: ideas-to-tickets
 description: Use when the user has one or more rough, half-formed ideas they want turned into concise, well-organized Jira tickets that stay honest about the actual state of the codebase. Runs a staged orchestrator (intake, refine, ground, structure, verify and emit) that writes one Markdown ticket per file and offers best-effort Jira creation only when a Jira/Atlassian MCP is connected.
 ---
 
-# model-ideas-to-tickets
+# ideas-to-tickets
 
 Convert rough idea(s) into concise, codebase-grounded Jira tickets through five stages:
 Intake -> Refine -> Ground -> Structure -> Verify and Emit.
 
-Announce at the start: "I'm using the model-ideas-to-tickets skill to turn your idea(s)
+Announce at the start: "I'm using the ideas-to-tickets skill to turn your idea(s)
 into tickets."
 
 Create a five-item task/todo tracker for the stages below, using whatever task tooling

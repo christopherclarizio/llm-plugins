@@ -101,10 +101,10 @@
       "category": "Education"
     },
     {
-      "name": "model-ideas-to-tickets",
+      "name": "ideas-to-tickets",
       "source": {
         "source": "local",
-        "path": "./plugins/model-ideas-to-tickets"
+        "path": "./plugins/ideas-to-tickets"
       },
       "policy": {
         "installation": "AVAILABLE",

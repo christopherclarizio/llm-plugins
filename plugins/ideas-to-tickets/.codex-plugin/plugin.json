@@ -1,5 +1,5 @@
 {
-  "name": "model-ideas-to-tickets",
+  "name": "ideas-to-tickets",
   "version": "0.1.0",
   "description": "Turn rough ideas into concise, codebase-grounded Jira tickets.",
   "author": {
@@ -16,7 +16,7 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Model Ideas to Tickets",
+    "displayName": "Ideas to Tickets",
     "shortDescription": "Turn rough ideas into codebase-grounded Jira tickets",
     "longDescription": "A staged orchestrator skill that refines vague ideas, sanity-checks them against the codebase, structures them into a concise ticket hierarchy written to Markdown files, and offers best-effort Jira creation when a Jira/Atlassian MCP is connected.",
     "developerName": "Chris Clarizio",

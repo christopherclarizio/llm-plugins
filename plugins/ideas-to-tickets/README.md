@@ -1,9 +1,9 @@
-# model-ideas-to-tickets
+# ideas-to-tickets
 
 Turn rough, half-formed ideas into concise, well-organized Jira tickets that stay
 honest about the actual state of your codebase.
 
-This plugin ships a single orchestrator **skill** (`model-ideas-to-tickets`) that runs
+This plugin ships a single orchestrator **skill** (`ideas-to-tickets`) that runs
 identically in Claude Code and Codex. It walks five stages:
 
 1. **Intake** - gather the raw idea(s) and confirm which repo(s) to ground against.
@@ -105,9 +105,9 @@ marketplace (Codex).
 
 ## Usage
 
-- Claude Code: run `/model-ideas-to-tickets` (or just describe your ideas and ask for
+- Claude Code: run `/ideas-to-tickets` (or just describe your ideas and ask for
   tickets).
-- Codex: invoke the `model-ideas-to-tickets` skill directly.
+- Codex: invoke the `ideas-to-tickets` skill directly.
 
 ## Optional enhancement
 
