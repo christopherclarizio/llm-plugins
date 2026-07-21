@@ -1,6 +1,6 @@
 ---
 name: ideas-to-tickets
-description: Use when the user has one or more rough, half-formed ideas they want turned into concise, well-organized Jira tickets that stay honest about the actual state of the codebase. Runs a staged orchestrator (intake, refine, ground, structure, verify and emit) that writes one Markdown ticket per file and offers best-effort Jira creation only when a Jira/Atlassian MCP is connected.
+description: Use when the user has one or more rough, half-formed ideas they want turned into concise, well-organized Jira tickets that stay honest about the actual state of the codebase. Runs a staged orchestrator (intake, refine, ground, structure, verify and emit) that writes one Jira-markup ticket per file and offers best-effort Jira creation only when a Jira/Atlassian MCP is connected.
 ---
 
 # ideas-to-tickets
@@ -158,14 +158,27 @@ see it consistently:
   since a story implicitly depends on its epic existing.
 
 Every ticket is generated from the template at
-`${CLAUDE_PLUGIN_ROOT}/templates/ticket.template.md`, whose front-matter contract is
+`${CLAUDE_PLUGIN_ROOT}/templates/ticket.template.jira`, whose front-matter contract is
 exactly `type` (`epic | story | task`), `parent` (the parent ticket's slug, omitted
 entirely for top-level tickets), and `key` (blank until the ticket is created in Jira).
-Ticket content stays concise regardless of hierarchy: a title, a 2-4 sentence
-description, and a few acceptance-criteria bullets. Add the template's adaptive
-Context / Implementation-notes sections only when the idea's complexity or the
-grounding findings actually warrant them (AC5.2), and never add story points,
-components, or priority - those stay out of scope in every ticket (AC5.4).
+The body uses Jira wiki markup, not Markdown - `h1.`/`h2.` for headings, `*` for
+bullets, `{code}`/`{noformat}` for any code blocks - since these files are meant to be
+pasted or created directly as Jira ticket bodies. Ticket content stays concise
+regardless of hierarchy: a title, a 2-4 sentence description, and a few
+acceptance-criteria bullets. Add the template's adaptive Context / Implementation-notes
+sections only when the idea's complexity or the grounding findings actually warrant
+them (AC5.2), and never add story points, components, or priority - those stay out of
+scope in every ticket (AC5.4).
+
+**No hard-wrapping within a paragraph.** Jira wiki markup renders every newline as a
+visible line break, unlike Markdown where a single newline inside a paragraph is
+usually collapsed back into flowing text. Write each description, context note, or
+implementation note as one continuous line with no embedded newline, however long that
+line gets - never wrap prose to a fixed column width (e.g. ~80 chars) the way you would
+in a Markdown file or source comment. A blank line still separates one paragraph from
+the next, and each bullet is still its own line; what must never happen is a
+mid-paragraph newline inserted purely to keep line length down, since that turns one
+sentence into several disjointed lines once pasted into Jira.
 
 ## Stage 5: Verify and Emit
 
@@ -238,9 +251,9 @@ goes through an already-connected MCP tool call.
 
 ## File layout
 
-Once verification passes, each ticket becomes one Markdown file in a run-scoped
-directory, with a generated index. The rules below define that layout; the Emit
-sub-step above is what applies them.
+Once verification passes, each ticket becomes one Jira-markup file in a run-scoped
+directory, with a generated Markdown index. The rules below define that layout; the
+Emit sub-step above is what applies them.
 
 - **Run-scoped directory.** Default `./tickets/<YYYY-MM-DD>-<batch-slug>/`, where
   `<batch-slug>` is derived from the batch of ideas (for example, its shared theme or
@@ -250,26 +263,28 @@ sub-step above is what applies them.
   directory and must never overwrite a prior run's directory implicitly. If the target
   directory already exists, disambiguate it (append `-2`, or another short suffix)
   rather than write into or over it.
-- **One file per ticket.** The filename encodes type and slug: `epic-<slug>.md`,
-  `story-<slug>.md`, `task-<slug>.md`. A flat idea (Stage 4) has no epic, so it omits
-  the epic file entirely.
-- **Each ticket file** is generated from `${CLAUDE_PLUGIN_ROOT}/templates/ticket.template.md`
-  (Task 1): front-matter (`type`, `parent`, `key`), a title, a 2-4 sentence description,
-  and a few acceptance-criteria bullets (AC5.1), plus the adaptive Context /
-  Implementation-notes sections only when warranted (AC5.2).
-- **Generated index `README.md`** in the run directory (AC5.3): a tree of the tickets
-  showing the hierarchy (epics with their child stories nested under them), a one-line
-  summary per ticket, and any grounding caveats surfaced in Stage 3 or the Stage 5
-  per-ticket verification (for example, "story-search-cache: partially implemented
-  already, see `file:line`").
+- **One file per ticket.** The filename encodes type and slug: `epic-<slug>.jira`,
+  `story-<slug>.jira`, `task-<slug>.jira`. A flat idea (Stage 4) has no epic, so it
+  omits the epic file entirely.
+- **Each ticket file** is generated from `${CLAUDE_PLUGIN_ROOT}/templates/ticket.template.jira`
+  (Task 1): front-matter (`type`, `parent`, `key`), then a Jira-wiki-markup body - a
+  title, a 2-4 sentence description, and a few acceptance-criteria bullets (AC5.1),
+  plus the adaptive Context / Implementation-notes sections only when warranted
+  (AC5.2).
+- **Generated index `README.md`** in the run directory (AC5.3), written as Markdown
+  since it is a local navigation aid rather than ticket content bound for Jira: a tree
+  of the tickets showing the hierarchy (epics with their child stories nested under
+  them), a one-line summary per ticket, and any grounding caveats surfaced in Stage 3
+  or the Stage 5 per-ticket verification (for example, "story-search-cache: partially
+  implemented already, see `file:line`").
 
 Example run directory for one epic with two child stories:
 
 ```
 tickets/2026-07-20-search-revamp/
-  epic-search-revamp.md
-  story-search-index-refresh.md
-  story-search-result-ranking.md
+  epic-search-revamp.jira
+  story-search-index-refresh.jira
+  story-search-result-ranking.jira
   README.md
 ```
 
@@ -278,9 +293,9 @@ Example `README.md` contents for that run:
 ```markdown
 # search-revamp tickets (2026-07-20)
 
-- epic-search-revamp.md - Rebuild search indexing and ranking.
-  - story-search-index-refresh.md - Refresh the index on a schedule instead of on demand.
-  - story-search-result-ranking.md - Rank results by recency as well as relevance.
+- epic-search-revamp.jira - Rebuild search indexing and ranking.
+  - story-search-index-refresh.jira - Refresh the index on a schedule instead of on demand.
+  - story-search-result-ranking.jira - Rank results by recency as well as relevance.
 
 Grounding caveats:
 - story-search-index-refresh: an ad-hoc refresh script already exists at

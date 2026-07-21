@@ -14,14 +14,15 @@ identically in Claude Code and Codex. It walks five stages:
 4. **Structure** - break each surviving idea into a concise ticket hierarchy
    (flat, or epic -> story only when warranted), ordered by dependency.
 5. **Verify and Emit** - verify each ticket's specifics against the code, write one
-   Markdown file per ticket plus an index, then offer best-effort Jira creation.
+   Jira-markup file per ticket plus a Markdown index, then offer best-effort Jira
+   creation.
 
 ## Output
 
 Tickets are written **files-first** to a run-scoped directory
-(`./tickets/<date>-<batch-slug>/`), one Markdown file per ticket plus a `README.md`
-index. Each ticket carries YAML front-matter (`type`, `parent`, `key`) so hierarchy
-and Jira mapping survive.
+(`./tickets/<date>-<batch-slug>/`), one `.jira` file per ticket (Jira wiki markup body)
+plus a `README.md` index (Markdown). Each ticket carries YAML front-matter (`type`,
+`parent`, `key`) so hierarchy and Jira mapping survive.
 
 ## Example
 
@@ -39,10 +40,10 @@ both the file listing and the README index:
 
 ```
 tickets/2026-07-21-notifications/
-  epic-notifications-center.md
-  story-notification-delivery.md
-  story-notification-settings.md
-  task-unread-badge.md
+  epic-notifications-center.jira
+  story-notification-delivery.jira
+  story-notification-settings.jira
+  task-unread-badge.jira
   README.md
 ```
 
@@ -52,39 +53,43 @@ per ticket and any grounding caveats:
 ```markdown
 # notifications tickets (2026-07-21)
 
-- epic-notifications-center.md - Build a notifications center: in-app delivery
+- epic-notifications-center.jira - Build a notifications center: in-app delivery
   plus a settings page for types and email.
-  - story-notification-delivery.md - Deliver in-app notifications for comments
+  - story-notification-delivery.jira - Deliver in-app notifications for comments
     and mentions.
-  - story-notification-settings.md - Let users toggle notification types and
+  - story-notification-settings.jira - Let users toggle notification types and
     email delivery.
-- task-unread-badge.md - Show an unread-count badge on the header bell icon;
+- task-unread-badge.jira - Show an unread-count badge on the header bell icon;
   depends on story-notification-delivery's data existing.
 
 Jira: no Jira/Atlassian MCP detected. Create these manually in the order listed
 above (epic before its stories, badge task last).
 ```
 
-Each `.md` file carries `type` and `key` front-matter, plus `parent` for tickets
-that sit under an epic (top-level tickets omit it), so the hierarchy and any later
-Jira key survive as plain text even before a ticket is ever created in Jira. A single
-ticket file looks like this (here, the flat badge task):
+Each `.jira` file carries `type` and `key` YAML front-matter, plus `parent` for
+tickets that sit under an epic (top-level tickets omit it), so the hierarchy and any
+later Jira key survive as plain text even before a ticket is ever created in Jira. The
+body below the front-matter uses Jira wiki markup (`h1.`/`h2.` headings, `*` bullets)
+rather than Markdown, since it's meant to be pasted or created directly as a Jira
+ticket body. Each paragraph is written as one continuous line with no mid-paragraph
+newline - Jira renders every newline as a real line break, so hard-wrapping prose to a
+column width (the way you would in Markdown) breaks the formatting once pasted in. A
+single ticket file looks like this (here, the flat badge task):
 
-```markdown
+```
 ---
 type: task
 key:
 ---
 
-# Show an unread-count badge on the header bell icon
+h1. Show an unread-count badge on the header bell icon
 
-Display a live unread-notification count on the header bell. The badge reads from the
-in-app notification store and clears when the user opens the notifications center.
+Display a live unread-notification count on the header bell. The badge reads from the in-app notification store and clears when the user opens the notifications center.
 
-## Acceptance criteria
+h2. Acceptance criteria
 
-- The bell shows a numeric badge when unread notifications exist, and none when zero.
-- Opening the notifications center marks them read and clears the badge.
+* The bell shows a numeric badge when unread notifications exist, and none when zero.
+* Opening the notifications center marks them read and clears the badge.
 ```
 
 A child story would instead carry `type: story` and `parent: notifications-center`;

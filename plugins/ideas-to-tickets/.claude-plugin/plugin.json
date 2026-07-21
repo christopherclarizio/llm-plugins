@@ -1,7 +1,7 @@
 {
   "name": "ideas-to-tickets",
   "version": "0.1.0",
-  "description": "Turns rough, half-formed ideas into concise, well-organized Jira tickets, grounded in the actual state of the target codebase. A staged orchestrator skill (intake, refine, ground, structure, verify and emit) writes one Markdown ticket per file and offers best-effort Jira creation when a Jira/Atlassian MCP is connected.",
+  "description": "Turns rough, half-formed ideas into concise, well-organized Jira tickets, grounded in the actual state of the target codebase. A staged orchestrator skill (intake, refine, ground, structure, verify and emit) writes one Jira-markup ticket per file and offers best-effort Jira creation when a Jira/Atlassian MCP is connected.",
   "author": {
     "name": "Chris Clarizio",
     "email": "cclarizio@adobe.com"

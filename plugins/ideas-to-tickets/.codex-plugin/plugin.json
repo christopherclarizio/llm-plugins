@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "Ideas to Tickets",
     "shortDescription": "Turn rough ideas into codebase-grounded Jira tickets",
-    "longDescription": "A staged orchestrator skill that refines vague ideas, sanity-checks them against the codebase, structures them into a concise ticket hierarchy written to Markdown files, and offers best-effort Jira creation when a Jira/Atlassian MCP is connected.",
+    "longDescription": "A staged orchestrator skill that refines vague ideas, sanity-checks them against the codebase, structures them into a concise ticket hierarchy written to Jira-markup files, and offers best-effort Jira creation when a Jira/Atlassian MCP is connected.",
     "developerName": "Chris Clarizio",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
