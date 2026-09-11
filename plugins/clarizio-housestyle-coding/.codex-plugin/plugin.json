@@ -1,0 +1,31 @@
+{
+  "name": "clarizio-housestyle-coding",
+  "version": "0.1.0",
+  "description": "Injects personal coding preferences into every session via a SessionStart hook.",
+  "author": {
+    "name": "Chris Clarizio",
+    "email": "cclarizio@adobe.com"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "coding",
+    "style",
+    "house-style",
+    "conventions",
+    "preferences",
+    "hooks"
+  ],
+  "hooks": "./hooks.codex.json",
+  "interface": {
+    "displayName": "Clarizio House Style Coding",
+    "shortDescription": "Apply personal coding preferences to every session",
+    "longDescription": "Injects personal coding preferences at session start so they apply to all conversations, in any repository, without being checked into each repo. Edit CODING.md to change the preferences.",
+    "developerName": "Chris Clarizio",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Apply my personal coding preferences"
+    ],
+    "brandColor": "#0F766E"
+  }
+}

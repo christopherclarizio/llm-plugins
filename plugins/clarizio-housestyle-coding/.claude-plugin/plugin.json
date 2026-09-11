@@ -1,0 +1,18 @@
+{
+    "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+    "name": "clarizio-housestyle-coding",
+    "description": "Injects personal coding preferences into every session via a SessionStart hook.",
+    "version": "0.1.0",
+    "author": {
+        "name": "Chris Clarizio",
+        "email": "cclarizio@adobe.com"
+    },
+    "keywords": [
+        "coding",
+        "style",
+        "house-style",
+        "conventions",
+        "preferences",
+        "hooks"
+    ]
+}
