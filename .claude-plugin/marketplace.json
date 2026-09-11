@@ -192,6 +192,24 @@
             "category": "education"
         },
         {
+            "name": "clarizio-housestyle-voice",
+            "description": "Injects personal voice and style preferences (conciseness, formatting, tone) into every session via a SessionStart hook, so they apply across all conversations and repositories.",
+            "version": "0.1.0",
+            "source": "./plugins/clarizio-housestyle-voice",
+            "author": {
+                "name": "Chris Clarizio",
+                "email": "cclarizio@adobe.com"
+            },
+            "keywords": [
+                "voice",
+                "style",
+                "house-style",
+                "conciseness",
+                "preferences",
+                "hooks"
+            ]
+        },
+        {
             "name": "ideas-to-tickets",
             "description": "Turns rough ideas into concise, codebase-grounded Jira tickets, written files-first with best-effort Jira creation when a Jira/Atlassian MCP is connected.",
             "version": "0.1.0",

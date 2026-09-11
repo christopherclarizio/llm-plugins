@@ -1,0 +1,31 @@
+{
+  "name": "clarizio-housestyle-voice",
+  "version": "0.1.0",
+  "description": "Injects personal voice and style preferences into every session via a SessionStart hook.",
+  "author": {
+    "name": "Chris Clarizio",
+    "email": "cclarizio@adobe.com"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "voice",
+    "style",
+    "house-style",
+    "conciseness",
+    "preferences",
+    "hooks"
+  ],
+  "hooks": "./hooks.codex.json",
+  "interface": {
+    "displayName": "Clarizio House Style Voice",
+    "shortDescription": "Apply personal voice and style to every response",
+    "longDescription": "Injects personal voice and style preferences (clarity, correctness, conciseness, consistency) at session start so they apply to all conversations, in any repository, without being checked into each repo. Edit VOICE.md to change the style.",
+    "developerName": "Chris Clarizio",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "Apply my personal voice and style preferences"
+    ],
+    "brandColor": "#0F766E"
+  }
+}

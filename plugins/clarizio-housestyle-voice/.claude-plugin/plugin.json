@@ -1,0 +1,18 @@
+{
+    "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+    "name": "clarizio-housestyle-voice",
+    "description": "Injects personal voice and style preferences into every session via a SessionStart hook.",
+    "version": "0.1.0",
+    "author": {
+        "name": "Chris Clarizio",
+        "email": "cclarizio@adobe.com"
+    },
+    "keywords": [
+        "voice",
+        "style",
+        "house-style",
+        "conciseness",
+        "preferences",
+        "hooks"
+    ]
+}
