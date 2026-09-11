@@ -1,6 +1,6 @@
 ---
 name: ideas-to-tickets
-description: Use when the user has one or more rough, half-formed ideas they want turned into concise, well-organized Jira tickets that stay honest about the actual state of the codebase. Runs a staged orchestrator (intake, refine, ground, structure, verify and emit) that writes one Jira-markup ticket per file and offers best-effort Jira creation only when a Jira/Atlassian MCP is connected.
+description: Use when the user has one or more ideas that they want to create Jira tickets for - refines ideas into appropriate units of work, grounding them against the current state of the codebase, then writing tickets
 ---
 
 # ideas-to-tickets
@@ -17,7 +17,9 @@ complete, as you reach it. The flow can loop backward: a failed grounding check 
 Stage 3 can send an idea back to Stage 1 or Stage 2 for another pass, so leave earlier
 stages re-enterable rather than treating them as one-shot.
 
-## Stage 1: Intake
+## Steps
+
+### Stage 1: Intake
 
 Gather every idea and the codebase scope needed to ground them later.
 
