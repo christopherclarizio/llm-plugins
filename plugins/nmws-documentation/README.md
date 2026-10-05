@@ -2,13 +2,18 @@
 
 Used to maintain an accurate, verifiably-up-to-date, hierarchical, corpus of documentation for a codebase and its associated product.
 
-| resource | purpose |
+| Resource | Purpose |
 | --- | --- |
-| skills/**docs-router** | assembles relevant information from documentation | 
-| skills/**capture** | | 
-| skills/**docs-evaluate** | |
-| skills/**docs-validate** | | 
-| skills/**docs-verify** | | 
+| [skills/**docs-router**](skills/docs-router/SKILL.md) | Finds relevant documentation and briefs agents with trust and freshness citations. |
+| [skills/**docs-capture**](skills/docs-capture/SKILL.md) | Turns durable discoveries into deduplicated, source-grounded documentation diffs for approval. |
+| [skills/**docs-evaluate**](skills/docs-evaluate/SKILL.md) | Compares tasks with and without the corpus to measure correctness, wrong turns, and token usage. |
+| [skills/**docs-validate**](skills/docs-validate/SKILL.md) | Checks frontmatter, references, hierarchy, body structure, scope exclusions, and links. |
+| [skills/**docs-verify**](skills/docs-verify/SKILL.md) | Re-derives document claims from current source and proposes corrections and verification updates. |
+| [reference/**frontmatter-schema.md**](reference/frontmatter-schema.md) | Defines the shared metadata contract for code and product documentation. |
+| [reference/**repository-registry.md**](reference/repository-registry.md) | Defines repository IDs, checkout configuration, local overrides, and safe refresh behavior. |
+| [reference/**staleness-convention.md**](reference/staleness-convention.md) | Defines drift detection, freshness results, and how trust affects documentation use. |
+| [reference/**validation.md**](reference/validation.md) | Documents validator checks, warnings, limitations, exit codes, and CI usage. |
+| [reference/**write-loop.md**](reference/write-loop.md) | Defines approval-gated writes, grounding requirements, and human-review trust transitions. |
 
 ## Design Principles
 
@@ -34,9 +39,9 @@ information as required by the **NWMS documentation contract**.
 
 The router looks for the documentation corpus in this order:
 
-1. `$CLARIZIO_DOCS_ROOT`, if set — point this at the vended docs location in your
+1. `$NMWS_DOCS_CORPUS_ROOT`, if set — point this at the vended docs location in your
    working repo.
-2. Otherwise the bundled [`examples/`](examples/), for demonstration only.
+2. Otherwise the bundled [`examples/`](examples/), which are illustrative, not authoritative.
 
 
 ## Requirements and tests

@@ -6,7 +6,7 @@ description: Runs deterministic validation of documentation frontmatter, reposit
 # docs-validate
 
 Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location.
-Use `$CLARIZIO_DOCS_ROOT` or a corpus root provided by the user. For a demo only,
+Use `$NMWS_DOCS_CORPUS_ROOT` or a corpus root provided by the user. To validate illustrative docs,
 use the bundled examples with `--registry <plugin-root>/examples/repositories.example.yaml`.
 Python 3.9+ and the plugin's `requirements.txt` are required. Report missing dependencies
 instead of skipping checks.

@@ -11,8 +11,8 @@ a stale document can still describe current behavior correctly.
 ## Setup
 
 Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location.
-Require `$CLARIZIO_DOCS_ROOT` or a user-provided corpus root. Bundled examples may be
-read as demonstrations, never updated with real source evidence. Git, Python 3.9+,
+Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root. Bundled examples may be
+read as illustrations, never updated with real source evidence. Git, Python 3.9+,
 and the plugin's `requirements.txt` are prerequisites; surface missing dependencies.
 
 ## Procedure

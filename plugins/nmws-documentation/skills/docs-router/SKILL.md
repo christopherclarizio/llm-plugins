@@ -19,13 +19,13 @@ formatting pass, a one-line fix in code you already understand).
 
 Resolve the docs corpus root in this order:
 
-1. `$CLARIZIO_DOCS_ROOT`, if set.
-2. Otherwise `${CLAUDE_PLUGIN_ROOT}/examples` (bundled demo docs).
+1. `$NMWS_DOCS_CORPUS_ROOT`, if set.
+2. Otherwise `${CLAUDE_PLUGIN_ROOT}/examples` (bundled illustrative docs).
 
 `PLUGIN_ROOT` below means this plugin's installed directory: use `CLAUDE_PLUGIN_ROOT`
 when available, otherwise resolve it from this skill's location (`skills/docs-router/`
 is beneath the plugin root). Use the same fallback for locating bundled examples.
-Examples are fabricated demos, not authoritative knowledge; their configuration must
+Examples are fabricated illustrations, not authoritative knowledge; their configuration must
 be replaced before accessing real repositories.
 
 ## Prerequisites

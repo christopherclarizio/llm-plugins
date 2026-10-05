@@ -62,15 +62,15 @@ architecture doc can connect components implemented in different repositories.
 ## Why this set and not more
 
 The temptation is to add owner, tags, review dates, per-section metadata, and so on.
-Resist it for the pilot: every required field above has a read-loop or validation
+Resist it: every required field above has a read-loop or validation
 consumer, and a heavy frontmatter suppresses the demand-driven capture the
 whole system depends on. Grow the schema only when a *consumer* needs a new field.
 
-## Decisions (pilot)
+## Decisions
 
 - **Per-document code references, not per-claim.** Each entry covers this doc's
   relevant code in one repository. Per-claim references are deferred.
-- **No generated index.** At pilot scale the router globs frontmatter directly, so
+- **No generated index.** The router globs frontmatter directly, so
   there is no index artifact that can itself go stale. Introduce a generated index
   only when globbing gets expensive.
 - **Relative-path links in prose, `id` as the router's key.** Bodies link with

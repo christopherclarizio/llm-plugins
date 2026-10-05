@@ -17,7 +17,7 @@ sessions without durable learning. Do not offer capture after every task. An exp
 request to document something permits preparation, not unsupported claims.
 
 Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT` when available, otherwise from this
-skill's location beneath the plugin root. Require an explicit `$CLARIZIO_DOCS_ROOT`
+skill's location beneath the plugin root. Require an explicit `$NMWS_DOCS_CORPUS_ROOT`
 or a corpus root provided by the user. **Do not fall back to bundled examples for
 writes.** Source-derived documents and review/evaluation evidence belong only in the
 private corpus or private local artifacts, never this public plugin repository.

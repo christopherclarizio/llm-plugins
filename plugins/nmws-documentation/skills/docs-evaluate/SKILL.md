@@ -5,7 +5,9 @@ description: Runs a small paired evaluation of representative tasks with versus 
 
 # docs-evaluate
 
-A demand-driven pilot, not an automatic benchmark on every capture.
+A demand-driven evaluation, not an automatic benchmark on every capture.
+
+Resolve the corpus from `$NMWS_DOCS_CORPUS_ROOT` or a corpus root provided by the user.
 
 1. Require an explicitly selected private artifact destination and a real configured
    corpus. Choose a small representative set of actual understanding tasks, including
@@ -53,6 +55,6 @@ A demand-driven pilot, not an automatic benchmark on every capture.
    Use real observations, not the placeholder scores. Validate that both runs and
    source SHAs are recorded and all output paths resolve before reporting completion.
 5. Report paired correctness, wrong turns, measured tokens, and limitations. Establish
-   a baseline before choosing improvement thresholds. One small pilot is not statistical
+   a baseline before choosing improvement thresholds. One small evaluation is not statistical
    evidence of general improvement. Recommend corpus/tooling changes only from observed
    failures; do not generate more documents automatically.
