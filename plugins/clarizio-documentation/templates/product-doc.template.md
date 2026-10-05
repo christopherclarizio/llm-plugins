@@ -11,12 +11,14 @@ children: [<id>, <id>]               # optional. The tier(s) down.
 related: [<id>, <id>]                # optional. Cross-links; include the code-tree counterpart.
 keywords: [<term>, <term>]           # optional. Extra matching signal for the router.
 
-sources:                             # required. Repo-relative paths/globs for the IMPLEMENTING code.
-  - <path/or/glob/**>                #   product docs anchor at the code that implements the feature.
-verified_at:                         # required.
-  commit: <sha>                      #   HEAD of the code repo when last checked against reality.
-  date: <YYYY-MM-DD>
-  by: <person-or-"agent">            #   product docs should reach human-reviewed via someone who knows the product.
+code_references:                     # required. One entry per repository implementing this feature.
+  - repository: <registry-id>         #   resolves through the corpus's repositories.yaml.
+    paths:
+      - <path/or/glob/**>             #   repo-relative paths/globs for the IMPLEMENTING code.
+    verified_at:
+      commit: "<sha>"                 #   this repository's commit when claims were last checked.
+      date: <YYYY-MM-DD>
+      by: <person-or-agent>           #   human-reviewed requires someone who knows the product.
 trust: draft                         # required. One of: draft | agent-generated | human-reviewed.
 ---
 
@@ -45,8 +47,8 @@ trust: draft                         # required. One of: draft | agent-generated
 
 ## Implemented by
 <!-- purpose: The bridge into the code tree. Link the code-tree docs and name the entry
-     points that implement this feature. Keep this doc's `sources` anchored at that
-     implementing code so drift is detectable. -->
+     points that implement this feature. Keep this doc's code references pointed at
+     that implementing code so drift is detectable. -->
 
 ## Drill down / see also
 <!-- purpose: Progressive-disclosure links: down to sub-features/workflows, across to the

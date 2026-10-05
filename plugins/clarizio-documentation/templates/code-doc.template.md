@@ -11,12 +11,14 @@ children: [<id>, <id>]               # optional. The tier(s) down.
 related: [<id>, <id>]                # optional. Cross-links; include the product-tree counterpart.
 keywords: [<term>, <term>]           # optional. Extra matching signal for the router.
 
-sources:                             # required. Repo-relative paths/globs the claims derive from.
-  - <path/or/glob/**>
-verified_at:                         # required.
-  commit: <sha>                      #   HEAD of the code repo when last checked against reality.
-  date: <YYYY-MM-DD>
-  by: <person-or-"agent">            #   a person if human-reviewed; "agent" if generated & unverified.
+code_references:                     # required. One entry per repository this doc describes.
+  - repository: <registry-id>         #   resolves through the corpus's repositories.yaml.
+    paths:                           #   repo-relative paths/globs the claims derive from.
+      - <path/or/glob/**>
+    verified_at:
+      commit: "<sha>"                 #   this repository's commit when claims were last checked.
+      date: <YYYY-MM-DD>
+      by: <person-or-agent>           #   does not automatically promote document trust.
 trust: draft                         # required. One of: draft | agent-generated | human-reviewed.
 ---
 

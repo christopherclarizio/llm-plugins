@@ -15,10 +15,11 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
 
 ## Status
 
-- **Read loop — shipped.** `docs-router` skill + `check_staleness.py` (drift detection),
-  the shared frontmatter schema, the staleness/trust convention, and the two body templates.
+- **Read loop — shipped.** `docs-router`, batched per-repository drift detection,
+  safe fetch/fast-forward refresh of configured local checkouts, the repository
+  registry, shared frontmatter schema, staleness/trust convention, and body templates.
 - **First corpus slice — written** (kept in the private docs repo), `trust: agent-generated`,
-  anchored to source and verified fresh.
+  referenced to source and verified fresh.
 - **Write loop — not built.** Deferred until there's enough corpus to justify it.
 
 ## Skills backlog
@@ -36,17 +37,17 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
      was corrected — most sessions produce nothing durable. Nagging after every task gets it
      disabled.
    - *Prepared diff, not an open prompt.* Present a concrete doc/change for yes/no.
-   - Auto-fill `sources` + `verified_at`; enforce the altitude rule (no code-restating trivia)
+   - Auto-fill `code_references` + per-repository `verified_at`; enforce the altitude rule (no code-restating trivia)
      and the "state what it does NOT cover" rule; dedup against existing docs.
    - *Trigger signal:* `docs-router` **misses** (task not covered by the corpus) are prime
      capture candidates. The read loop feeds the write loop.
 2. **verify / ground** — given a doc, re-derive its claims from current source; report
    agreements/contradictions; bump `verified_at` or flag drift. This is the deep counterpart
-   to `check_staleness` (which only cheaply detects that anchors moved), and it's the workflow
+   to `check_staleness` (which only cheaply detects referenced-code changes), and it's the workflow
    that promotes a doc from `agent-generated` → `human-reviewed`.
 3. **style-as-validation** — a doc *linter* + the templates, NOT a prose style guide (agents
    drift from prose, not from a check). Validates: required frontmatter present & well-formed,
-   `sources`/`verified_at` present, `tier` vocabulary matches `tree`, links resolve, altitude
+   `code_references`/per-repository `verified_at` present, `tier` vocabulary matches `tree`, links resolve, altitude
    heuristics. Runnable on demand or in CI.
 4. **eval harness** — run a representative task *with* vs. *without* the corpus and capture the
    comparison (wrong turns, correctness, tokens). This is what turns "it feels better" into
@@ -69,7 +70,15 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
 
 - Two trees (`code`, `product`); **shared frontmatter, different bodies**.
 - **Frontmatter is the router's contract** — a field exists only if a consumer reads it.
-- **Per-doc anchors** (not per-claim) for v1.
+- **Per-document code references** (not per-claim), with independent verification
+  commits for every referenced repository.
+- **Explicit local checkouts.** Registry entries provide `remote`,
+  `authoritative_branch`, and `local`; local overrides may change only the path.
+- **Refresh on demand.** Fetch and fast-forward clean authoritative-branch checkouts
+  once per document batch. No branch switches, destructive repairs, remote API layer,
+  or checkout discovery. Refresh failures never imply freshness.
+- **No saved lookup snapshot.** Updated SHAs remain in process/tool output only;
+  refreshing code never updates document verification metadata.
 - **No generated index** at pilot scale.
 - **Relative-path links in prose; `id` as the router's key.**
 - **Keep `tier`** — altitude label distinct from `parent`/`children` topology.
@@ -77,7 +86,7 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
   which is the thing nothing else provides and the wedge for the whole effort. Executable
   procedures belong in **skills** (the active form of a how-to, already an accepted pattern);
   human-process procedures belong in the monorepo's existing procedural docs. Both also don't
-  fit the source-anchored staleness contract cleanly. Docs **cross-link** to the relevant
+  fit the code-reference staleness contract cleanly. Docs **cross-link** to the relevant
   skill/howto via `related` rather than absorbing them. The decision rule:
   | Need | Home |
   |---|---|

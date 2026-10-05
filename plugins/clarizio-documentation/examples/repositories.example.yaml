@@ -1,0 +1,15 @@
+# ILLUSTRATIVE ONLY. Copy to your corpus's repositories.yaml and replace all values.
+# No real repository URLs, source paths, or verification commits are provided here.
+repositories:
+  scripting-napi:
+    remote: https://example.invalid/team/scripting-napi.git
+    authoritative_branch: main
+    local: ../scripting-napi
+  scripting-types:
+    remote: https://example.invalid/team/scripting-types.git
+    authoritative_branch: main
+    local: ../scripting-types
+  scripting-gateway:
+    remote: https://example.invalid/team/scripting-gateway.git
+    authoritative_branch: main
+    local: ../scripting-gateway

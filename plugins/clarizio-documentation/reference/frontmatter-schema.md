@@ -22,11 +22,42 @@ The *body* below the frontmatter differs by tree (see the two files in
 | `children` | — | list of ids | — | The tier(s) down. |
 | `related` | — | list of ids | — | Cross-links. **Include the counterpart in the other tree** — the code↔product bridge. |
 | `keywords` | — | list of strings | — | Extra matching signal for the router. |
-| `sources` | ✅ | list of strings | repo-relative paths/globs | The code the doc's claims derive from. The staleness anchor. For product docs, these point at the **implementing** code. |
-| `verified_at.commit` | ✅ | string | git SHA | HEAD of the code repo when the doc was last checked against reality. |
-| `verified_at.date` | ✅ | string | `YYYY-MM-DD` | When that check happened. |
-| `verified_at.by` | ✅ | string | a person, or `agent` | Who verified. A person implies human authority; `agent` means generated and unverified. |
+| `code_references` | ✅* | list of mappings | one entry per repository | The code the doc's claims derive from. Product docs reference the **implementing** code. |
+| `code_references[].repository` | ✅ | string | registry repository ID | Identifies a repository independently of its checkout path. |
+| `code_references[].paths` | ✅ | list of strings | repo-relative paths/globs | The files relevant to this doc in that repository. No absolute paths, `..` segments, or Git pathspec magic. |
+| `code_references[].verified_at.commit` | ✅ | string | git SHA (quote it) | The commit in this repository when its contribution to the doc was last verified. |
+| `code_references[].verified_at.date` | ✅ | string | `YYYY-MM-DD` | When that check happened. Dates may also be unquoted YAML dates. |
+| `code_references[].verified_at.by` | ✅ | string | a person, or `agent` | Who verified this repository's contribution; does not automatically promote document trust. |
 | `trust` | ✅ | enum | `draft` \| `agent-generated` \| `human-reviewed` | How much weight the router should give the doc. See [`staleness-convention.md`](staleness-convention.md). |
+
+### Code references
+
+```yaml
+code_references:
+  - repository: scripting-napi
+    paths:
+      - src/bindings/**
+    verified_at:
+      commit: "<sha-in-napi-repository>"
+      date: 2026-10-05
+      by: agent
+  - repository: scripting-types
+    paths:
+      - types/**
+    verified_at:
+      commit: "<sha-in-types-repository>"
+      date: 2026-10-05
+      by: agent
+trust: agent-generated
+```
+
+These are illustrative paths. Each repository has its own verification commit and
+date; there is no top-level `verified_at` in the new format. `trust` remains
+document-wide. A single-repository doc uses a one-entry list.
+
+Repository IDs resolve through the [repository registry](repository-registry.md).
+Hierarchy and `related` IDs are corpus-wide, not scoped to a repository, so one
+architecture doc can connect components implemented in different repositories.
 
 ## Why this set and not more
 
@@ -37,8 +68,8 @@ whole system depends on. Grow the schema only when a *consumer* needs a new fiel
 
 ## Decisions (pilot)
 
-- **Per-doc anchors, not per-claim.** `sources` covers the whole doc. Per-claim
-  anchoring is more precise but too heavy for v1; revisit if a doc gets large.
+- **Per-document code references, not per-claim.** Each entry covers this doc's
+  relevant code in one repository. Per-claim references are deferred.
 - **No generated index.** At pilot scale the router globs frontmatter directly, so
   there is no index artifact that can itself go stale. Introduce a generated index
   only when globbing gets expensive.

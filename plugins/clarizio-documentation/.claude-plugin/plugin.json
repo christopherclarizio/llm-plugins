@@ -1,7 +1,7 @@
 {
   "name": "clarizio-documentation",
-  "version": "0.1.0",
-  "description": "Hierarchical, agent-first documentation for a codebase and its product. A router skill assembles the relevant docs on demand via progressive disclosure, and a staleness contract keeps them honest.",
+  "version": "0.2.0",
+  "description": "Hierarchical, agent-first documentation for a codebase and its product.",
   "author": {
     "name": "Chris Clarizio",
     "email": "cclarizio@adobe.com"

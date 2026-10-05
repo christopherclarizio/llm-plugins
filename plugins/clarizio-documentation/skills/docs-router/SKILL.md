@@ -1,6 +1,6 @@
 ---
 name: docs-router
-description: Assembles the relevant architecture and product documentation for a task before reading code. Use at the START of any task that needs understanding of how a subsystem works or how a product feature behaves — bug fixes, feature work, refactors, investigations. Globs the doc corpus, selects by relevance, follows the hierarchy only as deep as needed, checks each loaded doc for staleness, and briefs with citations. Skip for trivial or purely mechanical edits.
+description: Assembles relevant architecture and product documentation before reading code, including features spanning repositories. Use at the START of bug fixes, feature work, refactors, or investigations needing subsystem or product understanding. Selects docs by frontmatter, follows only the needed hierarchy, safely refreshes configured local checkouts, checks code references for drift, and briefs with trust and freshness citations. Skip trivial or mechanical edits.
 ---
 
 # docs-router
@@ -22,6 +22,24 @@ Resolve the docs corpus root in this order:
 1. `$CLARIZIO_DOCS_ROOT`, if set.
 2. Otherwise `${CLAUDE_PLUGIN_ROOT}/examples` (bundled demo docs).
 
+`PLUGIN_ROOT` below means this plugin's installed directory: use `CLAUDE_PLUGIN_ROOT`
+when available, otherwise resolve it from this skill's location (`skills/docs-router/`
+is beneath the plugin root). Use the same fallback for locating bundled examples.
+Examples are fabricated demos, not authoritative knowledge; their configuration must
+be replaced before accessing real repositories.
+
+## Prerequisites
+
+Git, Python 3.9+, and the plugin's `requirements.txt` (PyYAML) are required.
+Use an environment with these dependencies installed:
+
+```sh
+python3 -m pip install -r "${PLUGIN_ROOT}/requirements.txt"
+```
+
+Install only if the dependency is missing and installation is permitted. Surface
+missing tools/dependencies explicitly rather than skipping freshness checks.
+
 ## Procedure
 
 1. **Index cheaply.** Glob `**/*.md` under the corpus root and read **only** the
@@ -31,15 +49,34 @@ Resolve the docs corpus root in this order:
 3. **Progressive disclosure.** Read the body of the top match. Follow its `children` and
    `related` links **only as far as the task needs**, and stop once you have enough. Never
    load the whole tree.
-4. **Check freshness.** For every doc whose body you load, run:
+4. **Refresh and check freshness.** Collect every doc whose body you loaded into one
+   batch. For docs with `code_references`, use the corpus's `repositories.yaml`:
    ```sh
-   python "${CLAUDE_PLUGIN_ROOT}/skills/docs-router/scripts/check_staleness.py" <doc-path> --repo <code-repo-root>
+   python3 "${PLUGIN_ROOT}/skills/docs-router/scripts/check_staleness.py" \
+     <doc-path> [<other-loaded-doc-path> ...] --registry <corpus-root>/repositories.yaml
    ```
-   Exit `0` = fresh, `1` = stale, `2` = error. Treat a stale result — or `trust: draft` /
-   `agent-generated` — as "lead, not authority."
+   Add `--override <corpus-root>/repositories.local.yaml` if that file exists.
+   The checker resolves each reference to its configured `local` checkout, validates
+   its remote/clean state/authoritative branch, fetches, and fast-forwards only.
+   Each needed repository is refreshed once per batch. Do not separately run the
+   refresh helper for the same lookup.
+
+   For legacy `sources` + `verified_at` docs, pass `--repo <code-repo-root>` instead,
+   or alongside `--registry` for a mixed batch. Legacy checks are against local HEAD
+   only and do not confirm current upstream.
+
+   Exit `0` = fresh, `1` = stale, `2` = error/incomplete. A refresh failure must be
+   reported as **not confirmed current**, never fresh. Still report known results
+   for other repositories. Treat stale, draft, or agent-generated docs as leads,
+   not authority. Missing registry/checkout/access permission is a verification gap,
+   not permission to guess repository locations or mutate another checkout.
 5. **Brief with citations.** Return a compact synthesis, then a citation list: for each doc
-   used — `id`, `tier`, `trust`, `verified_at.date`, and freshness (fresh / stale).
-   Explicitly flag any stale or low-trust doc and tell the caller to verify it against source.
+   used — `id`, `tier`, `trust`, and overall freshness (fresh / stale / incomplete).
+   For each code reference include repository ID, verification date, checked SHA,
+   and per-repository freshness; qualify legacy freshness as upstream not checked.
+   The refresh helper's SHAs stay in tool/conversation output, not a saved snapshot.
+   Explicitly flag stale, incomplete, or low-trust docs and verify load-bearing claims
+   against code in the correct configured checkout.
 6. **On a miss, say so.** If nothing matches, state plainly that the corpus does not cover
    this and fall back to reading code. Note the gap — a miss is a capture candidate for later.
 
@@ -47,9 +84,15 @@ Resolve the docs corpus root in this order:
 
 - Never present a doc's claim without its trust + freshness attached.
 - When a doc is flagged stale, prefer the source of truth (the code) and note the conflict.
+- Never switch branches, reset, stash, rebase, discard edits, or clone to repair a
+  configured checkout. Respect network and authentication permissions.
+- Assume refreshed checkouts remain unchanged during source reads; rerun the lookup
+  if they change. Report task-branch differences separately from freshness on main.
+- Updating a checkout does not update a doc's `verified_at` or prove its claims.
 - Keep context lean: frontmatter for selection, bodies only for the branch you actually need.
 
 ## Reference
 
 - Frontmatter fields this skill consumes: [`../../reference/frontmatter-schema.md`](../../reference/frontmatter-schema.md)
 - Staleness + trust model: [`../../reference/staleness-convention.md`](../../reference/staleness-convention.md)
+- Repository configuration: [`../../reference/repository-registry.md`](../../reference/repository-registry.md)
