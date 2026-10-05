@@ -1,6 +1,10 @@
 # ILLUSTRATIVE ONLY. Copy to your corpus's repositories.yaml and replace all values.
 # No real repository URLs, source paths, or verification commits are provided here.
 repositories:
+  playback:
+    remote: https://example.invalid/team/playback.git
+    authoritative_branch: main
+    local: ../playback
   scripting-napi:
     remote: https://example.invalid/team/scripting-napi.git
     authoritative_branch: main

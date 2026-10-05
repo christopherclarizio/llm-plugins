@@ -11,7 +11,8 @@ This file is the durable record so the plan survives across sessions and people.
 
 **Demand-driven.** Build machinery when a real task needs it, not speculatively. The same
 discipline we apply to docs applies to the tooling: don't gold-plate a skill suite around a
-handful of documents. The pilot needs only the read loop plus, eventually, capture + verify.
+handful of documents. The write loop uses agent workflows and a small offline validator,
+not an autonomous publishing system.
 
 ## Status
 
@@ -20,7 +21,10 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
   registry, shared frontmatter schema, staleness/trust convention, and body templates.
 - **First corpus slice — written** (kept in the private docs repo), `trust: agent-generated`,
   referenced to source and verified fresh.
-- **Write loop — not built.** Deferred until there's enough corpus to justify it.
+- **Write loop — shipped.** `docs-capture`, `docs-verify`, `docs-validate`, and an
+  on-demand `docs-evaluate` pilot workflow. Capture/verification prepare concrete diffs
+  for approval; human trust promotion remains explicit. Real private-corpus adoption,
+  human-review ownership, and measured evaluation results are still outstanding.
 
 ## Skills backlog
 
@@ -30,8 +34,8 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
 - *(future)* generated `INDEX` + an index-builder skill — only once globbing frontmatter at
   read time gets expensive. Not needed at pilot scale (deliberately no index today).
 
-### Write loop (designed, not yet built)
-1. **capture / graduate** *(highest priority of this loop)* — after a session that did real
+### Write loop
+1. **capture / graduate — shipped** (`docs-capture`) — after a session that did real
    re-derivation, offer to persist it as a doc. Design constraints we've locked:
    - *Selective.* Offer only when non-trivial understanding was gained or a wrong assumption
      was corrected — most sessions produce nothing durable. Nagging after every task gets it
@@ -41,17 +45,19 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
      and the "state what it does NOT cover" rule; dedup against existing docs.
    - *Trigger signal:* `docs-router` **misses** (task not covered by the corpus) are prime
      capture candidates. The read loop feeds the write loop.
-2. **verify / ground** — given a doc, re-derive its claims from current source; report
+2. **verify / ground — shipped** (`docs-verify`) — given a doc, re-derive its claims from current source; report
    agreements/contradictions; bump `verified_at` or flag drift. This is the deep counterpart
    to `check_staleness` (which only cheaply detects referenced-code changes), and it's the workflow
-   that promotes a doc from `agent-generated` → `human-reviewed`.
-3. **style-as-validation** — a doc *linter* + the templates, NOT a prose style guide (agents
+   that prepares a doc for explicit human acceptance before promotion from
+   `agent-generated` → `human-reviewed`. Agent grounding alone never promotes trust.
+3. **style-as-validation — shipped** (`docs-validate`, `validate_docs.py`) — a doc *linter* + the templates, NOT a prose style guide (agents
    drift from prose, not from a check). Validates: required frontmatter present & well-formed,
    `code_references`/per-repository `verified_at` present, `tier` vocabulary matches `tree`, links resolve, altitude
    heuristics. Runnable on demand or in CI.
-4. **eval harness** — run a representative task *with* vs. *without* the corpus and capture the
+4. **eval pilot workflow — shipped; real measurements pending** (`docs-evaluate`) — run a representative task *with* vs. *without* the corpus and capture the
    comparison (wrong turns, correctness, tokens). This is what turns "it feels better" into
-   evidence. May be a one-off harness rather than a durable skill.
+   evidence. Uses independent contexts and private JSON results rather than a permanent
+   benchmark platform; unavailable runtime counters are reported, not estimated.
 
 ### Learning / mentorship (the tutorial quadrant)
 5. **learning / onboarding** — a skill built *on top of* the corpus: guided walk-throughs and
@@ -82,12 +88,17 @@ handful of documents. The pilot needs only the read loop plus, eventually, captu
 - **No generated index** at pilot scale.
 - **Relative-path links in prose; `id` as the router's key.**
 - **Keep `tier`** — altitude label distinct from `parent`/`children` topology.
+- **Approval-gated writes.** Validate the concrete proposal before approval; recheck
+  source/target stability before applying. No automatic commits or trust promotion.
+- **Current reference format only.** No top-level `sources`/`verified_at` or local-only
+  checker mode. Bundled examples use the same contract as the private corpus.
 - **No "howtos" tree.** Howtos are the *doing* half; these trees are the *understanding* half,
   which is the thing nothing else provides and the wedge for the whole effort. Executable
   procedures belong in **skills** (the active form of a how-to, already an accepted pattern);
   human-process procedures belong in the monorepo's existing procedural docs. Both also don't
   fit the code-reference staleness contract cleanly. Docs **cross-link** to the relevant
-  skill/howto via `related` rather than absorbing them. The decision rule:
+  skill/howto using relative-path prose links rather than absorbing them; `related`
+  remains a list of corpus document IDs. The decision rule:
   | Need | Home |
   |---|---|
   | Understand what/why | docs (these trees) |

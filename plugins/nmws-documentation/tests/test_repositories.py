@@ -267,6 +267,7 @@ class RepositoryTests(unittest.TestCase):
             "no frontmatter",
             "---\nunclosed",
             "---\ncode_references: []\n---",
+            "---\nid: no-references\n---",
             valid.replace("code_references:", "sources: [src/**]\ncode_references:"),
             valid.replace("code_references:", "verified_at: {}\ncode_references:"),
             valid.replace("paths: [src/**]", "paths: []"),
@@ -284,29 +285,6 @@ class RepositoryTests(unittest.TestCase):
                 doc.write_text(text)
                 with self.assertRaises(DocumentationError):
                     code_references(doc)
-
-    def test_legacy_block_and_inline_sources(self):
-        _, writer, local, initial = self.make_repo("napi")
-        doc = self.root / "legacy.md"
-        for sources in ("sources:\n  - src/**", "sources: [src/**]"):
-            doc.write_text(f"---\n{sources}\nverified_at:\n  commit: '{initial}'\n---\n")
-            code, output = self.run_checker(doc, "--repo", local)
-            self.assertEqual(code, 0, output)
-            self.assertIn("upstream not checked", output)
-        target = self.commit(writer)
-        self.git(local, "fetch", "origin", "main")
-        self.git(local, "merge", "--ff-only", target)
-        code, output = self.run_checker(doc, "--repo", local)
-        self.assertEqual(code, 1, output)
-
-    def test_legacy_working_tree_changes(self):
-        _, _, local, initial = self.make_repo("napi")
-        doc = self.root / "legacy.md"
-        doc.write_text(f"---\nsources: [src/**]\nverified_at:\n  commit: '{initial}'\n---\n")
-        (local / "src/new.txt").write_text("untracked")
-        code, output = self.run_checker(doc, "--repo", local)
-        self.assertEqual(code, 1, output)
-        self.assertIn("Uncommitted", output)
 
     def test_linked_worktree_supported(self):
         _, writer, local, initial = self.make_repo("napi")
@@ -338,12 +316,18 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(output.getvalue().count("UPDATED:"), 1)
 
     def test_cli_missing_files_and_modes(self):
-        code, output = self.run_checker(self.root / "missing.md", "--repo", self.root)
-        self.assertEqual(code, 2, output)
         self.make_repo("napi")
-        code, output = self.run_checker(self.doc(["napi"]), "--repo", self.configured["napi"][2])
+        code, output = self.run_checker(self.root / "missing.md", "--registry", self.config)
         self.assertEqual(code, 2, output)
-        self.assertIn("requires --registry", output)
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as error:
+            self.run_checker(self.doc(["napi"]))
+        self.assertEqual(error.exception.code, 2)
+
+    def test_removed_reference_format_rejected(self):
+        doc = self.root / "old-format.md"
+        doc.write_text("---\nsources: [src/**]\nverified_at:\n  commit: 'abcdef0'\n---\n")
+        with self.assertRaisesRegex(DocumentationError, "not supported"):
+            code_references(doc)
 
     def test_checkout_mutation_during_check_is_incomplete(self):
         _, _, local, _ = self.make_repo("napi")
@@ -358,6 +342,20 @@ class RepositoryTests(unittest.TestCase):
             code, output = self.run_checker(self.doc(["napi"]), "--registry", self.config)
         self.assertEqual(code, 2, output)
         self.assertIn("changed after refresh", output)
+
+    def test_head_mutation_during_check_is_incomplete(self):
+        _, _, local, _ = self.make_repo("napi")
+        original = check_staleness.changed_commits
+
+        def mutate(*args):
+            result = original(*args)
+            self.commit(local, "unrelated.txt", push=False)
+            return result
+
+        with patch.object(check_staleness, "changed_commits", side_effect=mutate):
+            code, output = self.run_checker(self.doc(["napi"]), "--registry", self.config)
+        self.assertEqual(code, 2, output)
+        self.assertIn("checkout changed", output)
 
     def test_real_cli_preserves_verification_metadata(self):
         self.make_repo("napi")

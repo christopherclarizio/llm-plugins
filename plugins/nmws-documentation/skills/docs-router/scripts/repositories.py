@@ -83,18 +83,23 @@ def nonempty_string(value: object, field: str) -> str:
 
 @dataclass(frozen=True)
 class CodeReference:
-    repository: str | None
+    repository: str
     paths: list[str]
     commit: str
 
 
-def reference(value: dict, repository: str | None, legacy: bool = False) -> CodeReference:
-    paths = value.get("sources" if legacy else "paths")
+def reference(value: dict, repository: str) -> CodeReference:
+    paths = value.get("paths")
     if not isinstance(paths, list) or not paths:
         raise DocumentationError("code reference requires a non-empty list of paths")
     for path in paths:
         nonempty_string(path, "code reference path")
-        if path.startswith(("/", ":", "\\")) or ".." in path.split("/"):
+        if (
+            path.startswith(("/", ":", "\\"))
+            or "\\" in path
+            or ".." in path.split("/")
+            or re.match(r"^[A-Za-z]:", path)
+        ):
             raise DocumentationError(f"expected a repo-relative path/glob: {path}")
     verified = value.get("verified_at")
     if not isinstance(verified, dict):
@@ -102,29 +107,26 @@ def reference(value: dict, repository: str | None, legacy: bool = False) -> Code
     commit = nonempty_string(verified.get("commit"), "verified_at.commit")
     if not re.fullmatch(r"[0-9a-fA-F]{7,64}", commit):
         raise DocumentationError("verified_at.commit must be a Git commit SHA")
-    if not legacy:
-        verified_date = verified.get("date")
-        try:
-            if not isinstance(verified_date, (str, date)) or not re.fullmatch(
-                r"\d{4}-\d{2}-\d{2}", str(verified_date)
-            ):
-                raise ValueError("expected YYYY-MM-DD")
-            date.fromisoformat(str(verified_date))
-        except ValueError as exc:
-            raise DocumentationError("verified_at.date must be YYYY-MM-DD") from exc
-        nonempty_string(verified.get("by"), "verified_at.by")
+    verified_date = verified.get("date")
+    try:
+        if not isinstance(verified_date, (str, date)) or not re.fullmatch(
+            r"\d{4}-\d{2}-\d{2}", str(verified_date)
+        ):
+            raise ValueError("expected YYYY-MM-DD")
+        date.fromisoformat(str(verified_date))
+    except ValueError as exc:
+        raise DocumentationError("verified_at.date must be YYYY-MM-DD") from exc
+    nonempty_string(verified.get("by"), "verified_at.by")
     return CodeReference(repository, paths, commit)
 
 
 def code_references(doc: Path) -> list[CodeReference]:
     fm = frontmatter(doc)
-    if "code_references" not in fm:
-        return [reference(fm, None, legacy=True)]
     if "sources" in fm or "verified_at" in fm:
         raise DocumentationError(
-            f"{doc}: cannot mix code_references with legacy sources/verified_at"
+            f"{doc}: sources and top-level verified_at are not supported; use code_references"
         )
-    values = fm["code_references"]
+    values = fm.get("code_references")
     if not isinstance(values, list) or not values:
         raise DocumentationError(f"{doc}: code_references must be a non-empty list")
     result = []

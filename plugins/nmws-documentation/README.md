@@ -10,7 +10,11 @@ This plugin holds the **machinery**, not the docs themselves:
 - a **staleness contract** (code references + per-repository verification commits) so drift is
   cheaply detectable rather than silent;
 - a **repository registry and safe refresh** for local checkouts on authoritative branches;
-- two **body templates** (code tree, product tree) that share one frontmatter schema.
+- two **body templates** (code tree, product tree) that share one frontmatter schema;
+- a **write loop** (`docs-capture`, `docs-verify`) that prepares source-grounded diffs
+  for approval and requires explicit human review before promoting trust;
+- **validation** (`docs-validate`) and an on-demand paired evaluation workflow
+  (`docs-evaluate`).
 
 ## Why it's built this way
 
@@ -39,8 +43,8 @@ Four ideas do all the work:
    Agent Skills use, including a description-per-doc discovery layer.
 
 Docs grow **demand-driven**: seed the top of each tree, then graduate proven
-understanding into shared docs as real tasks surface it (the write-loop skills come
-later — this pilot ships the read loop only).
+understanding into shared docs as real tasks surface it. Capture is selective, not an
+automatic offer after every task.
 
 ## Configuring the corpus
 
@@ -77,12 +81,46 @@ checkout for feature work.
 
 Refresh/check failures are **incomplete / not confirmed current**, not fresh.
 Successful refresh prints the checked SHA but saves no separate snapshot and never
-updates document verification metadata. Existing `sources` + `verified_at` docs
-remain supported with `--repo <checkout>`; that mode checks local HEAD without fetching.
+updates document verification metadata. Only per-repository `code_references` are
+supported; there is no local-only or top-level `sources`/`verified_at` mode.
+
+## Write loop
+
+Use `docs-capture` after a meaningful investigation uncovers reusable understanding,
+especially after a router miss or corrected assumption. It deduplicates against the
+corpus, grounds claims in configured authoritative checkouts, fills the appropriate
+template, and presents a concrete validated diff for approval.
+
+Use `docs-verify` to re-derive an existing doc's claims and report supported,
+contradicted, and unresolved assertions. A fetched SHA or fresh staleness result is
+not verification. Metadata advances only after checking that repository's full
+contribution. Explicit human acceptance of the full grounded document is required
+to promote trust; approval to save an agent diff is not human review.
+
+Both workflows require an explicit private corpus destination and check source/target
+stability before applying approved changes. They never default writes to bundled examples,
+automatically commit, or push. See the [write-loop contract](reference/write-loop.md).
+
+`docs-validate` runs offline structural and link checks:
+
+```sh
+python3 <plugin-root>/skills/docs-router/scripts/validate_docs.py \
+  --corpus-root <corpus-root>
+```
+
+It reads docs under `code/` and `product/` and defaults to the corpus's
+`repositories.yaml`. Exit `0` means structurally valid, `1` means document errors,
+and `2` means configuration/read/dependency failure. Altitude warnings require human
+or agent judgment; `--strict` also fails on warnings. This does not prove correctness
+or freshness. See [validation](reference/validation.md) for checks and CI usage.
+
+`docs-evaluate` provides an explicitly requested paired-task pilot with and without
+the corpus, recording correctness, wrong turns, and measured tokens when available.
+It requires isolated contexts and keeps all source-derived evidence private.
 
 ## Requirements and tests
 
-Git, Python 3.9+, and PyYAML are required. Use your Python environment or a virtual
+Git, Python 3.9+, PyYAML, and markdown-it-py are required. Use your Python environment or a virtual
 environment, then install:
 
 ```sh
@@ -100,6 +138,8 @@ reference/
   frontmatter-schema.md           the shared frontmatter contract (the router's API)
   repository-registry.md          logical repositories + selected local checkouts
   staleness-convention.md         code references + the drift check + trust states
+  write-loop.md                   approval, grounding, and human-review contract
+  validation.md                   deterministic checks and heuristic limits
 templates/
   code-doc.template.md            code-tree body skeleton
   product-doc.template.md         product-tree body skeleton
@@ -108,9 +148,14 @@ skills/docs-router/
   scripts/check_staleness.py      batched refresh + per-repository drift detection
   scripts/refresh_repositories.py standalone safe checkout refresh
   scripts/repositories.py         shared parsing + Git operations
-requirements.txt                 Python dependency
+  scripts/validate_docs.py        offline corpus validation (shared by write skills)
+skills/docs-capture/SKILL.md      selective, approval-gated capture
+skills/docs-verify/SKILL.md       deep grounding and human-review workflow
+skills/docs-validate/SKILL.md     on-demand / CI validation
+skills/docs-evaluate/SKILL.md     private paired-task evaluation pilot
+requirements.txt                 Python dependencies
 tests/                           temporary-repository regression tests
-examples/                        illustrative legacy + multi-repository docs
+examples/                        illustrative single- and multi-repository docs
   code/ppro-playback-engine.md
   code/ppro-scripting-architecture.md
   product/prod-playback-and-scrubbing.md
@@ -120,6 +165,6 @@ examples/                        illustrative legacy + multi-repository docs
 
 ## Status
 
-Pilot. Read loop (routing + staleness) only. The write loop — capture/graduate,
-verify/ground, style validation — is intentionally deferred until there's enough
-corpus to justify it.
+Pilot. Read loop, approval-gated capture/verification, offline validation, and an
+on-demand evaluation workflow are available. The workflows are agent skills, not
+autonomous prose generators; semantic grounding and human review remain explicit.

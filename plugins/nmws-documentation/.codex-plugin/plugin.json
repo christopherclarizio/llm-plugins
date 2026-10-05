@@ -1,6 +1,6 @@
 {
   "name": "nmws-documentation",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Hierarchical, agent-first documentation for a codebase and its product.",
   "author": {
     "name": "Chris Clarizio",
@@ -11,13 +11,16 @@
     "architecture",
     "onboarding",
     "progressive-disclosure",
-    "staleness"
+    "staleness",
+    "capture",
+    "verification",
+    "validation"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "NMWS Documentation",
     "shortDescription": "Build and maintain structured product documentation",
-    "longDescription": "Adds an agent-first documentation router, templates, and a staleness contract for documenting codebases and products.",
+    "longDescription": "Adds documentation routing, safe source refresh, approval-gated capture, deep verification, offline validation, and paired-task evaluation for codebases and products.",
     "developerName": "Chris Clarizio",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],

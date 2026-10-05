@@ -7,17 +7,18 @@ description: >
   What a user experiences when they play a sequence or drag the playhead to preview it:
   real-time playback, scrubbing, and preview quality. Read before working on anything that
   affects how edits are previewed in the timeline.
-parent: prod-timeline-overview
 children: []
 related: [ppro-playback-engine]
 keywords: [playback, scrubbing, preview, playhead, timeline, dropped frames]
 
-sources:
-  - PremierePro/Playback/**
-verified_at:
-  commit: 76fa570afb88
-  date: 2026-07-15
-  by: agent
+code_references:
+  - repository: playback
+    paths:
+      - PremierePro/Playback/**
+    verified_at:
+      commit: "0000000"
+      date: 2026-10-05
+      by: agent
 trust: draft
 ---
 

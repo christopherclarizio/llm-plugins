@@ -68,20 +68,6 @@ changes while subsequently reading source.
 Refreshing code does not re-verify documentation. Re-derive claims before updating
 `verified_at`; do not simply copy the fetched SHA into it.
 
-## Legacy documents
-
-Existing top-level `sources` + `verified_at` documents still work:
-
-```sh
-python3 <plugin-root>/skills/docs-router/scripts/check_staleness.py \
-  <legacy-doc.md> --repo <code-checkout>
-```
-
-This mode compares against **local HEAD only**, does not fetch, and flags staged,
-unstaged, or untracked changes to referenced paths as stale. Its fresh result is
-explicitly qualified: **upstream not checked**. `--repo` can accompany `--registry`
-when a batch mixes legacy and new documents.
-
 ## Trust states
 
 | `trust` | fresh (no detected drift) | stale (drift detected) |
@@ -103,3 +89,8 @@ need someone who knows the product (PM/QE/support/experienced engineer).
 Keep code references tightly scoped. When drift is detected, re-verify the affected
 claims and update the corresponding repository's `verified_at`. Keep document-wide
 trust honest; a verification entry naming a person does not automatically promote it.
+
+Use `docs-verify` for deep grounding and explicit human review. `docs-capture` and
+`docs-verify` prepare validated diffs for approval; neither silently stamps fetched
+SHAs. Substantive agent changes to reviewed prose or evidentiary scope require renewed
+human review. See [write-loop.md](write-loop.md) for trust transitions and write safety.

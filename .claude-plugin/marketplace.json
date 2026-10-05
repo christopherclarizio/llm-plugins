@@ -7,8 +7,8 @@
     "plugins": [
         {
             "name": "nmws-documentation",
-            "description": "Hierarchical, agent-first documentation for a codebase and its product, with a router skill and a staleness contract.",
-            "version": "0.1.0",
+            "description": "Agent-first code and product documentation with routing, staleness checks, approval-gated capture, grounding, validation, and evaluation.",
+            "version": "0.3.0",
             "source": "./plugins/nmws-documentation",
             "author": {
                 "name": "Chris Clarizio",
@@ -19,7 +19,10 @@
                 "architecture",
                 "onboarding",
                 "progressive-disclosure",
-                "staleness"
+                "staleness",
+                "capture",
+                "verification",
+                "validation"
             ]
         },
         {

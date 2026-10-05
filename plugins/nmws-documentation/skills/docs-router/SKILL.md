@@ -42,7 +42,7 @@ missing tools/dependencies explicitly rather than skipping freshness checks.
 
 ## Procedure
 
-1. **Index cheaply.** Glob `**/*.md` under the corpus root and read **only** the
+1. **Index cheaply.** Glob `code/**/*.md` and `product/**/*.md` under the corpus root and read **only** the
    frontmatter of each (the block between the first pair of `---`). Do not read bodies yet.
 2. **Select.** Rank docs against the task using `description`, `keywords`, `tree`, and
    `tier`. Prefer the coarsest matching `tier` first (`architecture`/`overview`), then drill.
@@ -61,10 +61,6 @@ missing tools/dependencies explicitly rather than skipping freshness checks.
    Each needed repository is refreshed once per batch. Do not separately run the
    refresh helper for the same lookup.
 
-   For legacy `sources` + `verified_at` docs, pass `--repo <code-repo-root>` instead,
-   or alongside `--registry` for a mixed batch. Legacy checks are against local HEAD
-   only and do not confirm current upstream.
-
    Exit `0` = fresh, `1` = stale, `2` = error/incomplete. A refresh failure must be
    reported as **not confirmed current**, never fresh. Still report known results
    for other repositories. Treat stale, draft, or agent-generated docs as leads,
@@ -73,12 +69,17 @@ missing tools/dependencies explicitly rather than skipping freshness checks.
 5. **Brief with citations.** Return a compact synthesis, then a citation list: for each doc
    used — `id`, `tier`, `trust`, and overall freshness (fresh / stale / incomplete).
    For each code reference include repository ID, verification date, checked SHA,
-   and per-repository freshness; qualify legacy freshness as upstream not checked.
+   and per-repository freshness.
    The refresh helper's SHAs stay in tool/conversation output, not a saved snapshot.
    Explicitly flag stale, incomplete, or low-trust docs and verify load-bearing claims
    against code in the correct configured checkout.
-6. **On a miss, say so.** If nothing matches, state plainly that the corpus does not cover
-   this and fall back to reading code. Note the gap — a miss is a capture candidate for later.
+6. **Hand off selectively.** If nothing matches, state plainly that the corpus does not
+   cover this and fall back to reading code. Keep a compact conversation-only handoff:
+   uncovered question, relevant document IDs, any contradictions, consulted repository
+   IDs/checked SHAs, and task-branch differences. After the task, use `docs-capture`
+   only if meaningful reusable understanding emerged; a miss alone does not justify
+   a capture offer. Use `docs-verify` for existing claims needing deep re-derivation.
+   Do not queue gaps on disk, write docs, or advance verification metadata in the router.
 
 ## Guardrails
 
@@ -96,3 +97,4 @@ missing tools/dependencies explicitly rather than skipping freshness checks.
 - Frontmatter fields this skill consumes: [`../../reference/frontmatter-schema.md`](../../reference/frontmatter-schema.md)
 - Staleness + trust model: [`../../reference/staleness-convention.md`](../../reference/staleness-convention.md)
 - Repository configuration: [`../../reference/repository-registry.md`](../../reference/repository-registry.md)
+- Write-loop handoff: [`../../reference/write-loop.md`](../../reference/write-loop.md)

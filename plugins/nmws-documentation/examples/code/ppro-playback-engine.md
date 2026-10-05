@@ -7,18 +7,18 @@ description: >
   How Premiere turns a sequence into frames on screen in real time: the split between
   the sequence model and the render pipeline, the frame-request flow, and the threading
   model. Read before touching playback, scrubbing, or preview rendering.
-parent: ppro-architecture-overview
-children: [ppro-render-graph, ppro-frame-cache]
 related: [prod-playback-and-scrubbing]
 keywords: [playback, preview, scrubbing, render pipeline, frame cache, real-time]
 
-sources:
-  - PremierePro/Playback/**
-  - MediaCore/MediaFoundation/RenderPipeline/**
-verified_at:
-  commit: 76fa570afb88
-  date: 2026-07-15
-  by: agent
+code_references:
+  - repository: playback
+    paths:
+      - PremierePro/Playback/**
+      - MediaCore/MediaFoundation/RenderPipeline/**
+    verified_at:
+      commit: "0000000"
+      date: 2026-10-05
+      by: agent
 trust: draft
 ---
 
@@ -30,8 +30,8 @@ trust: draft
 
 Explains how a sequence becomes displayed frames during playback and scrubbing. Covers the
 sequence-model / render-pipeline split, the frame-request flow, and threading. It does
-**not** cover the render graph's node internals (see [render graph](../code/ppro-render-graph.md))
-or the frame cache's eviction policy (see [frame cache](../code/ppro-frame-cache.md)).
+**not** cover the render graph's node internals or the frame cache's eviction policy.
+Those documents are not yet written.
 
 ## Concept
 
@@ -63,6 +63,6 @@ chosen over locking to keep the UI thread from stalling during heavy renders.
 
 ## Drill down / see also
 
-- ↓ [Render graph](../code/ppro-render-graph.md) *(not yet written)*
-- ↓ [Frame cache](../code/ppro-frame-cache.md) *(not yet written)*
+- Render graph *(not yet written)*
+- Frame cache *(not yet written)*
 - ↔ [Product: Playback & scrubbing](../product/prod-playback-and-scrubbing.md)
