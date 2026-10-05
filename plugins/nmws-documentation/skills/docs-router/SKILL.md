@@ -5,7 +5,7 @@ description: Assembles relevant architecture and product documentation before re
 
 # docs-router
 
-Read-loop entry point for the `clarizio-documentation` corpus. It turns "understand this
+Read-loop entry point for the `nmws-documentation` corpus. It turns "understand this
 area before touching it" from ad-hoc code spelunking into a cheap, consistent lookup — and
 refuses to hand over a claim without flagging how much to trust it.
 

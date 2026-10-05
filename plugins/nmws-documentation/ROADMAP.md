@@ -1,4 +1,4 @@
-# clarizio-documentation — roadmap & backlog
+# nmws-documentation — roadmap & backlog
 
 What exists, what's deliberately deferred, and the skills we've designed but not yet built.
 This file is the durable record so the plan survives across sessions and people.

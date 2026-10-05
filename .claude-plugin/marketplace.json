@@ -6,10 +6,10 @@
     },
     "plugins": [
         {
-            "name": "clarizio-documentation",
+            "name": "nmws-documentation",
             "description": "Hierarchical, agent-first documentation for a codebase and its product, with a router skill and a staleness contract.",
             "version": "0.1.0",
-            "source": "./plugins/clarizio-documentation",
+            "source": "./plugins/nmws-documentation",
             "author": {
                 "name": "Chris Clarizio",
                 "email": "cclarizio@adobe.com"

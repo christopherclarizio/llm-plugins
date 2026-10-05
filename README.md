@@ -14,12 +14,12 @@ codex plugin marketplace add https://github.com/christopherclarizio/llm-plugins.
 
 **Install plugins**
 ```sh
-codex plugin add clarizio-documentation@llm-plugins
+codex plugin add nmws-documentation@llm-plugins
 codex plugin add learning-goal@llm-plugins
 # etc...
 ```
 
-The Codex marketplace includes the Codex-native plugins listed below: `clarizio-documentation`, `ed3d-plan-and-execute`, `ed3d-house-style`, `ed3d-playwright`, `learning-goal`, `learning-opportunities`, `learning-opportunities-auto`, and `orient`. The remaining packages currently rely on Claude-specific agents or hooks and remain available through the Claude Code marketplace.
+The Codex marketplace includes the Codex-native plugins listed below: `nmws-documentation`, `ed3d-plan-and-execute`, `ed3d-house-style`, `ed3d-playwright`, `learning-goal`, `learning-opportunities`, `learning-opportunities-auto`, and `orient`. The remaining packages currently rely on Claude-specific agents or hooks and remain available through the Claude Code marketplace.
 
 ### Claude Code
 
@@ -53,7 +53,7 @@ The Codex marketplace includes the Codex-native plugins listed below: `clarizio-
 | **`learning-opportunities-auto`** | Automatic version of **`learning-opportunities`** |
 | **`orient`** | Create lessons to familiarize a repository and bodebase |
 | **`learning-goal`** | Structured interactive goal setting |
-| **`clarizio-documentation`** | Structured documentation of code and product |
+| **`nmws-documentation`** | Structured documentation of code and product |
 | **`ideas-to-tickets`** | Turn rough ideas into concise, codebase-grounded Jira tickets; files-first with best-effort Jira MCP creation |
 
 ### Use

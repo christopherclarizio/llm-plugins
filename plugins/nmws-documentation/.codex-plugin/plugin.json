@@ -1,5 +1,5 @@
 {
-  "name": "clarizio-documentation",
+  "name": "nmws-documentation",
   "version": "0.2.0",
   "description": "Hierarchical, agent-first documentation for a codebase and its product.",
   "author": {
@@ -15,7 +15,7 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Clarizio Documentation",
+    "displayName": "NMWS Documentation",
     "shortDescription": "Build and maintain structured product documentation",
     "longDescription": "Adds an agent-first documentation router, templates, and a staleness contract for documenting codebases and products.",
     "developerName": "Chris Clarizio",

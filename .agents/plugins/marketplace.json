@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "clarizio-documentation",
+      "name": "nmws-documentation",
       "source": {
         "source": "local",
-        "path": "./plugins/clarizio-documentation"
+        "path": "./plugins/nmws-documentation"
       },
       "policy": {
         "installation": "AVAILABLE",

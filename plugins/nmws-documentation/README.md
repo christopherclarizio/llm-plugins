@@ -1,4 +1,4 @@
-# clarizio-documentation
+# nmws-documentation
 
 Agent-first documentation for a codebase **and** the product it ships, structured
 for progressive disclosure and designed so it can be trusted.
