@@ -1,9 +1,9 @@
 ---
-name: docs-validate
+name: validate-documentation-form
 description: Runs deterministic validation of documentation frontmatter, repository references, hierarchy, body structure, scope exclusions, and Markdown links. Use before approving capture/verification diffs, on demand, or in corpus CI. Reports altitude heuristics as warnings; does not prove prose correctness or refresh source.
 ---
 
-# docs-validate
+# validate-documentation-form
 
 Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location.
 Use `$NMWS_DOCS_CORPUS_ROOT` or a corpus root provided by the user. To validate illustrative docs,
@@ -17,7 +17,7 @@ skipping checks.
 Run:
 
 ```sh
-uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/validate_docs.py" \
+uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/validate_docs.py" \
   --corpus-root <corpus-root>
 ```
 
@@ -34,5 +34,3 @@ Do not auto-fix, rewrite prose, update verification metadata, or promote trust.
 An explicitly requested fix follows the approval-gated capture/verification workflow.
 Structural success does not establish correctness, adequate source coverage, freshness,
 or human review.
-
-See the [validation contract](../../reference/validation.md) for exact checks and limits.

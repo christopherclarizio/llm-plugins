@@ -1,9 +1,9 @@
 ---
-name: docs-verify
+name: verify-documentation-accuracy
 description: Re-derives a documentation file's claims from current configured source, reporting supported, contradicted, and unresolved claims. Use for deep grounding, stale-doc repair, or preparing a human review. Proposes evidence-backed corrections and per-repository verification updates; never equates freshness with correctness or automatically promotes trust.
 ---
 
-# docs-verify
+# verify-documentation-accuracy
 
 Deep grounding, not the cheap changed-path check. A fresh document can be wrong;
 a stale document can still describe current behavior correctly.
@@ -14,7 +14,7 @@ Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location
 Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root. Bundled examples may be
 read as illustrations, never updated with real source evidence. Git and `uv` are
 prerequisites; [set-me-up](../set-me-up/SKILL.md) installs missing tools and configures
-the corpus. Use `uv run --locked --script` for helpers as in `docs-router`; uv manages
+the corpus. Use `uv run --locked --script` for helpers as in `retrieve-relevant-documentation`; uv manages
 Python and isolated dependencies. Surface missing tools or failed downloads.
 
 ## Procedure
@@ -24,7 +24,7 @@ Python and isolated dependencies. Surface missing tools or failed downloads.
    and cross-repository relationships, not just named entry points. Record the original
    file contents for the eventual concurrency check.
 2. **Establish the baseline.** Batch selected docs through `check_staleness.py` with
-   the corpus registry and optional override, as in `docs-router`. Reuse unchanged,
+   the corpus registry and optional override, as in `retrieve-relevant-documentation`. Reuse unchanged,
    clean checked SHAs from this session instead of refreshing twice. If a referenced
    repository cannot refresh, report it as incomplete/not confirmed current; continue
    reporting known results, but never declare the document fully verified.
@@ -55,7 +55,7 @@ Python and isolated dependencies. Surface missing tools or failed downloads.
    when only grounded metadata is updated; agent verification does not add human review.
    Substantive agent corrections to a human-reviewed document downgrade it to
    `agent-generated`, or `draft` if material grounding gaps remain.
-5. **Validate, approve, and apply.** Follow `docs-capture`'s temporary-copy validation,
+5. **Validate, approve, and apply.** Follow `capture-information-in-documentation`'s temporary-copy validation,
    exact-diff approval, source/target concurrency checks, and post-write validation.
    A verification request alone does not approve proposed changes. Report per-repository
    results, overall grounding completeness, trust, and freshness separately.
@@ -71,6 +71,5 @@ Python and isolated dependencies. Surface missing tools or failed downloads.
 
 ## Reference
 
-- [Capture workflow](../docs-capture/SKILL.md)
-- [Write-loop contract](../../reference/write-loop.md)
+- [Capture workflow](../capture-information-in-documentation/SKILL.md)
 - [Trust and staleness](../../reference/staleness-convention.md)

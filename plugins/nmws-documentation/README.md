@@ -5,16 +5,13 @@ Used to maintain an accurate, verifiably-up-to-date, hierarchical, corpus of doc
 | Resource | Purpose |
 | --- | --- |
 | [skills/**set-me-up**](skills/set-me-up/SKILL.md) | Installs missing uv/Git tools and configures the user's corpus location. |
-| [skills/**docs-router**](skills/docs-router/SKILL.md) | Finds relevant documentation and briefs agents with trust and freshness citations. |
-| [skills/**docs-capture**](skills/docs-capture/SKILL.md) | Turns durable discoveries into deduplicated, source-grounded documentation diffs for approval. |
-| [skills/**docs-evaluate**](skills/docs-evaluate/SKILL.md) | Compares tasks with and without the corpus to measure correctness, wrong turns, and token usage. |
-| [skills/**docs-validate**](skills/docs-validate/SKILL.md) | Checks frontmatter, references, hierarchy, body structure, scope exclusions, and links. |
-| [skills/**docs-verify**](skills/docs-verify/SKILL.md) | Re-derives document claims from current source and proposes corrections and verification updates. |
+| [skills/**retrieve-relevant-documentation**](skills/retrieve-relevant-documentation/SKILL.md) | Finds relevant documentation and briefs agents with trust and freshness citations. |
+| [skills/**capture-information-in-documentation**](skills/capture-information-in-documentation/SKILL.md) | Turns durable discoveries into deduplicated, source-grounded documentation diffs for approval. |
+| [skills/**validate-documentation-form**](skills/validate-documentation-form/SKILL.md) | Checks frontmatter, references, hierarchy, body structure, scope exclusions, and links. |
+| [skills/**verify-documentation-accuracy**](skills/verify-documentation-accuracy/SKILL.md) | Re-derives document claims from current source and proposes corrections and verification updates. |
 | [reference/**frontmatter-schema.md**](reference/frontmatter-schema.md) | Defines the shared metadata contract for code and product documentation. |
 | [reference/**repository-registry.md**](reference/repository-registry.md) | Defines repository IDs, checkout configuration, local overrides, and safe refresh behavior. |
 | [reference/**staleness-convention.md**](reference/staleness-convention.md) | Defines drift detection, freshness results, and how trust affects documentation use. |
-| [reference/**validation.md**](reference/validation.md) | Documents validator checks, warnings, limitations, exit codes, and CI usage. |
-| [reference/**write-loop.md**](reference/write-loop.md) | Defines approval-gated writes, grounding requirements, and human-review trust transitions. |
 
 ## Design Principles
 
@@ -57,9 +54,9 @@ Only Git and [uv](https://docs.astral.sh/uv/getting-started/installation/) need 
 installed. Run the helpers through uv:
 
 ```sh
-uv run --locked --script <plugin-root>/skills/docs-router/scripts/check_staleness.py \
+uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/check_staleness.py \
   <doc-path> --registry <corpus-root>/repositories.yaml
-uv run --locked --script <plugin-root>/skills/docs-router/scripts/validate_docs.py \
+uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/validate_docs.py \
   --corpus-root <corpus-root>
 ```
 

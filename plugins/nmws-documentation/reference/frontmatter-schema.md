@@ -1,9 +1,9 @@
 # Frontmatter schema — the router's contract
 
 Every documentation file, in **both** the code tree and the product tree, opens with
-the same YAML frontmatter block. This uniformity is deliberate: the `docs-router`
+the same YAML frontmatter block. This uniformity is deliberate: the `retrieve-relevant-documentation`
 skill and `check_staleness.py` consume these fields, so the frontmatter is an **API**,
-not decoration. The rule of thumb — **a field needs a real read-loop or write-loop
+not decoration. The rule of thumb — **a field needs a real retrieval, capture, or validation
 consumer; otherwise it does not belong here.**
 
 The *body* below the frontmatter differs by tree (see the two files in
@@ -62,7 +62,7 @@ architecture doc can connect components implemented in different repositories.
 ## Why this set and not more
 
 The temptation is to add owner, tags, review dates, per-section metadata, and so on.
-Resist it: every required field above has a read-loop or validation
+Resist it: every required field above has a retrieval or validation
 consumer, and a heavy frontmatter suppresses the demand-driven capture the
 whole system depends on. Grow the schema only when a *consumer* needs a new field.
 
@@ -77,6 +77,5 @@ whole system depends on. Grow the schema only when a *consumer* needs a new fiel
   clickable relative paths; the router and cross-references use `id`.
 - **Reciprocal hierarchy.** Parent and children IDs resolve within the same tree,
   with parents coarser than children. Update both ends together.
-- **No write-loop metadata expansion.** Capture/verification reports remain private
-  artifacts or conversation output. See [write-loop.md](write-loop.md) and
-  [validation.md](validation.md).
+- **No capture or verification metadata expansion.** Capture/verification reports remain private
+  artifacts or conversation output.

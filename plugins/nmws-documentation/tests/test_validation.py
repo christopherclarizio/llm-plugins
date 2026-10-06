@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 import yaml
 
-SCRIPTS = Path(__file__).resolve().parents[1] / "skills" / "docs-router" / "scripts"
+SCRIPTS = Path(__file__).resolve().parents[1] / "skills" / "retrieve-relevant-documentation" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 import validate_docs

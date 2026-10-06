@@ -106,9 +106,9 @@ skill's location beneath the plugin root.
    Do not log unrelated environment variables or shell configuration contents.
    Check the uv-managed helpers without refreshing checkouts:
    ```sh
-   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/check_staleness.py" --help
-   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/refresh_repositories.py" --help
-   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/validate_docs.py" --help
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/check_staleness.py" --help
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/refresh_repositories.py" --help
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/validate_docs.py" --help
    ```
    These commands also provision the isolated Python dependencies and may download
    Python/packages. Report failed downloads explicitly; do not fall back to pip or

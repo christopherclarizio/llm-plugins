@@ -1,21 +1,22 @@
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 PLUGIN = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PLUGIN / "skills/docs-router/scripts"))
+sys.path.insert(0, str(PLUGIN / "skills/retrieve-relevant-documentation/scripts"))
 
 from repositories import frontmatter
 from validate_docs import markdown_content
 
 
 class PluginTests(unittest.TestCase):
-    def test_write_skills_are_discoverable(self):
+    def test_skills_are_discoverable(self):
         expected = {
-            "docs-router", "docs-capture", "docs-verify", "docs-validate",
-            "docs-evaluate", "set-me-up",
+            "retrieve-relevant-documentation", "capture-information-in-documentation",
+            "verify-documentation-accuracy", "validate-documentation-form", "set-me-up",
         }
         paths = list((PLUGIN / "skills").glob("*/SKILL.md"))
         self.assertEqual({path.parent.name for path in paths}, expected)
@@ -38,7 +39,7 @@ class PluginTests(unittest.TestCase):
 
     def test_workflow_reference_links_resolve(self):
         paths = [
-            PLUGIN / "README.md", PLUGIN / "ROADMAP.md",
+            *sorted(PLUGIN.glob("*.md")),
             *sorted((PLUGIN / "reference").glob("*.md")),
             *sorted((PLUGIN / "skills").glob("*/SKILL.md")),
         ]
@@ -50,6 +51,15 @@ class PluginTests(unittest.TestCase):
                     continue
                 with self.subTest(path=path, link=link):
                     self.assertTrue((path.parent / unquote(url.path)).exists())
+
+    def test_documented_helper_paths_resolve(self):
+        references = []
+        for path in PLUGIN.rglob("*.md"):
+            for helper in re.findall(r"skills/[\w/-]+\.py\b", path.read_text()):
+                references.append(helper)
+                with self.subTest(path=path, helper=helper):
+                    self.assertTrue((PLUGIN / helper).is_file())
+        self.assertTrue(references)
 
 
 if __name__ == "__main__":

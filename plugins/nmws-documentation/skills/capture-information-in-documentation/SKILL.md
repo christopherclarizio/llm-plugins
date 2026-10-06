@@ -1,11 +1,11 @@
 ---
-name: docs-capture
-description: Graduates durable understanding from a completed investigation into a concrete, approval-gated documentation diff. Use after a meaningful docs-router miss, corrected assumption, or source-grounded re-derivation; also when explicitly asked to capture understanding. Deduplicates against the corpus, grounds references per repository, validates the proposal, and never writes or commits without approval.
+name: capture-information-in-documentation
+description: Graduates durable understanding from a completed investigation into a concrete, approval-gated documentation diff. Use after a meaningful retrieve-relevant-documentation miss, corrected assumption, or source-grounded re-derivation; also when explicitly asked to capture understanding. Deduplicates against the corpus, grounds references per repository, validates the proposal, and never writes or commits without approval.
 ---
 
-# docs-capture
+# capture-information-in-documentation
 
-The write-loop entry point. Capture understanding that will prevent a future wrong
+Capture understanding that will prevent a future wrong
 turn, not a transcript or a restatement of code.
 
 ## Trigger and destination
@@ -42,7 +42,7 @@ Initial use may require downloads; failures block validation rather than being s
    or repair checkouts. Reuse a successful router refresh only if its checked SHAs
    and clean state are still unchanged. Otherwise refresh needed repositories once:
    ```sh
-   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/refresh_repositories.py" \
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/refresh_repositories.py" \
      <repository-id> [<other-id> ...] --registry <corpus-root>/repositories.yaml
    ```
    Add `--override <corpus-root>/repositories.local.yaml` when it exists.
@@ -63,7 +63,7 @@ Initial use may require downloads; failures block validation rather than being s
    For a new grounded doc, use the actual checked commit, current verification date,
    `by: agent`, and `trust: agent-generated`. Updating an existing doc's verification
    commit requires checking its **entire contribution from that repository**, not just
-   the new paragraph; use `docs-verify` when needed. Never stamp unchecked repositories.
+   the new paragraph; use `verify-documentation-accuracy` when needed. Never stamp unchecked repositories.
    Block persistence of unsupported new claims; an incomplete proposal may be shown as
    `draft`, clearly stating missing evidence, but does not receive fabricated metadata.
    If a substantive claim or its evidentiary scope changes in a `human-reviewed` doc,
@@ -76,7 +76,7 @@ Initial use may require downloads; failures block validation rather than being s
    of the corpus, preserving relative paths and the registry (no source checkouts need
    copying). Apply the entire proposed diff there and run:
    ```sh
-   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/validate_docs.py" \
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/validate_docs.py" \
      --corpus-root <temporary-corpus-root>
    ```
    Validation is offline and does not use checkout paths. Resolve every error caused
@@ -97,7 +97,5 @@ Initial use may require downloads; failures block validation rather than being s
 
 ## Reference
 
-- [Write-loop contract](../../reference/write-loop.md)
 - [Frontmatter schema](../../reference/frontmatter-schema.md)
 - [Trust and staleness](../../reference/staleness-convention.md)
-- [Validation contract](../../reference/validation.md)

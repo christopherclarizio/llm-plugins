@@ -17,7 +17,7 @@ See [frontmatter-schema.md](frontmatter-schema.md) for the complete contract.
 ## The check
 
 ```sh
-uv run --locked --script <plugin-root>/skills/docs-router/scripts/check_staleness.py \
+uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/check_staleness.py \
   <doc.md> [<another-doc.md> ...] --registry <corpus-root>/repositories.yaml
 ```
 
@@ -90,7 +90,7 @@ Keep code references tightly scoped. When drift is detected, re-verify the affec
 claims and update the corresponding repository's `verified_at`. Keep document-wide
 trust honest; a verification entry naming a person does not automatically promote it.
 
-Use `docs-verify` for deep grounding and explicit human review. `docs-capture` and
-`docs-verify` prepare validated diffs for approval; neither silently stamps fetched
+Use `verify-documentation-accuracy` for deep grounding and explicit human review. `capture-information-in-documentation` and
+`verify-documentation-accuracy` prepare validated diffs for approval; neither silently stamps fetched
 SHAs. Substantive agent changes to reviewed prose or evidentiary scope require renewed
-human review. See [write-loop.md](write-loop.md) for trust transitions and write safety.
+human review.

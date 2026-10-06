@@ -1,11 +1,11 @@
 ---
-name: docs-router
+name: retrieve-relevant-documentation
 description: Retrieve relevant architecture, code, and product documentation from a NMWS documentation corpus. Use prior to working on of bug fixes, features, refactors, investigations, or when asked for explanations.
 ---
 
-# docs-router
+# retrieve-relevant-documentation
 
-NMWS documentation is stored in a structured corpus. Use Read-loop entry point for the `nmws-documentation` corpus. It turns "understand this
+Retrieve relevant documentation from the structured `nmws-documentation` corpus. This turns "understand this
 area before touching it" from ad-hoc code spelunking into a cheap, consistent lookup — and
 refuses to hand over a claim without flagging how much to trust it.
 
@@ -23,7 +23,7 @@ Resolve the docs corpus root in this order:
 2. Otherwise `${CLAUDE_PLUGIN_ROOT}/examples` (bundled illustrative docs).
 
 `PLUGIN_ROOT` below means this plugin's installed directory: use `CLAUDE_PLUGIN_ROOT`
-when available, otherwise resolve it from this skill's location (`skills/docs-router/`
+when available, otherwise resolve it from this skill's location (`skills/retrieve-relevant-documentation/`
 is beneath the plugin root). Use the same fallback for locating bundled examples.
 Examples are fabricated illustrations, not authoritative knowledge; their configuration must
 be replaced before accessing real repositories.
@@ -49,7 +49,7 @@ checks. Do not install dependencies into the user's project.
 4. **Refresh and check freshness.** Collect every doc whose body you loaded into one
    batch. For docs with `code_references`, use the corpus's `repositories.yaml`:
    ```sh
-   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/check_staleness.py" \
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/check_staleness.py" \
      <doc-path> [<other-loaded-doc-path> ...] --registry <corpus-root>/repositories.yaml
    ```
    Add `--override <corpus-root>/repositories.local.yaml` if that file exists.
@@ -73,9 +73,9 @@ checks. Do not install dependencies into the user's project.
 6. **Hand off selectively.** If nothing matches, state plainly that the corpus does not
    cover this and fall back to reading code. Keep a compact conversation-only handoff:
    uncovered question, relevant document IDs, any contradictions, consulted repository
-   IDs/checked SHAs, and task-branch differences. After the task, use `docs-capture`
+   IDs/checked SHAs, and task-branch differences. After the task, use `capture-information-in-documentation`
    only if meaningful reusable understanding emerged; a miss alone does not justify
-   a capture offer. Use `docs-verify` for existing claims needing deep re-derivation.
+   a capture offer. Use `verify-documentation-accuracy` for existing claims needing deep re-derivation.
    Do not queue gaps on disk, write docs, or advance verification metadata in the router.
 
 ## Guardrails
@@ -94,4 +94,3 @@ checks. Do not install dependencies into the user's project.
 - Frontmatter fields this skill consumes: [`../../reference/frontmatter-schema.md`](../../reference/frontmatter-schema.md)
 - Staleness + trust model: [`../../reference/staleness-convention.md`](../../reference/staleness-convention.md)
 - Repository configuration: [`../../reference/repository-registry.md`](../../reference/repository-registry.md)
-- Write-loop handoff: [`../../reference/write-loop.md`](../../reference/write-loop.md)

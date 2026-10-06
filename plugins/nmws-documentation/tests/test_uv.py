@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 PLUGIN = Path(__file__).resolve().parents[1]
-SCRIPTS = PLUGIN / "skills/docs-router/scripts"
+SCRIPTS = PLUGIN / "skills/retrieve-relevant-documentation/scripts"
 DEPENDENCIES = {
     "check_staleness.py": ["PyYAML>=6.0.2,<7"],
     "refresh_repositories.py": ["PyYAML>=6.0.2,<7"],
