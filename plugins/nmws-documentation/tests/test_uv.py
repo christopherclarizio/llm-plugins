@@ -32,7 +32,14 @@ class UvTests(unittest.TestCase):
                 self.assertTrue(script.with_suffix(".py.lock").is_file())
 
     def test_setup_skill_covers_installation_and_persistent_configuration(self):
-        text = (PLUGIN / "skills/set-me-up/SKILL.md").read_text()
+        skill = (PLUGIN / "skills/set-me-up/SKILL.md").read_text()
+        references = ("setup-unix.md", "setup-windows.md", "helpers.md")
+        for name in references:
+            with self.subTest(reference=name):
+                self.assertIn(f"../../reference/{name}", skill)
+        text = skill + "\n".join(
+            (PLUGIN / "reference" / name).read_text() for name in references
+        )
         for required in (
             "command -v uv", "command -v git", "uv --version", "git --version",
             "brew install uv", "brew install git", "astral.sh/uv/install.sh",

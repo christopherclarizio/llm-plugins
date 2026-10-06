@@ -1,36 +1,33 @@
 ---
 name: validate-documentation-form
-description: Runs deterministic validation of documentation frontmatter, repository references, hierarchy, body structure, scope exclusions, and Markdown links. Use before approving capture/verification diffs, on demand, or in corpus CI. Reports altitude heuristics as warnings; does not prove prose correctness or refresh source.
+description: Checks documentation metadata, repository references, hierarchy, body structure, scope exclusions, and links. Use before approving documentation diffs, on demand, or in corpus CI. Reports structural errors and heuristic warnings; does not verify claims or refresh source.
 ---
 
-# validate-documentation-form
+# Validate documentation form
 
-Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location.
-Use `$NMWS_DOCS_CORPUS_ROOT` or a corpus root provided by the user. To validate illustrative docs,
-use the bundled examples with `--registry <plugin-root>/examples/repositories.example.yaml`.
-`uv` is required; [set-me-up](../set-me-up/SKILL.md) installs missing tools and
-configures the corpus. uv manages Python and isolated dependencies from the script's
-metadata and bundled lockfile; no pip or manual virtualenv setup is needed. Initial
-use may require downloads. Report missing tools or failed downloads instead of
-skipping checks.
+Check the corpus's structure, not whether its claims are true.
 
-Run:
+## Workflow
 
-```sh
-uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/validate_docs.py" \
-  --corpus-root <corpus-root>
-```
+1. **Select the corpus.** Use `$NMWS_DOCS_CORPUS_ROOT` or a user-provided root.
+   For an explicit example/demo check, use bundled `examples/` with
+   `examples/repositories.example.yaml` as the registry.
+2. **Run validation.** Follow [Helper commands](../../reference/helpers.md) to run
+   `validate_docs.py --corpus-root <corpus-root>`. The registry defaults to
+   `<corpus-root>/repositories.yaml`; use `--registry` to select another.
+   No local override or source checkout is needed. uv may provision dependencies,
+   but validation itself does not access Git or the network.
+3. **Report results.** Identify errors by document and field/link. Exit `0` means
+   no structural errors, `1` means invalid documents, and `2` means the check could
+   not complete. Review altitude warnings manually: they are not proof of poor
+   quality. Use `--strict` in CI only when zero heuristic warnings are required.
 
-The default registry is `<corpus-root>/repositories.yaml`. `--registry` can select
-another file. No local override is needed: validation never accesses source checkouts,
-Git, or the network.
+## Boundaries
 
-Report errors with their document and field/link. Exit `0` means no structural errors,
-`1` means validation failures, and `2` means configuration/read/dependency failure.
-Warnings are not proof of low quality: inspect altitude manually. Use `--strict` in
-CI only if the corpus deliberately requires zero heuristic warnings.
-
-Do not auto-fix, rewrite prose, update verification metadata, or promote trust.
-An explicitly requested fix follows the approval-gated capture/verification workflow.
-Structural success does not establish correctness, adequate source coverage, freshness,
-or human review.
+Do not auto-fix prose, update verification metadata, or promote trust.
+Requested repairs follow [Capture](../capture-information-in-documentation/SKILL.md)
+or [Verify](../verify-documentation-accuracy/SKILL.md) and the
+[Proposal and approval workflow](../../reference/proposal-workflow.md).
+Structural success does not establish correctness, source coverage, freshness,
+or human review. Report missing tools or failed downloads, never a skipped check
+as success.

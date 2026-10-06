@@ -1,75 +1,72 @@
 ---
 name: verify-documentation-accuracy
-description: Re-derives a documentation file's claims from current configured source, reporting supported, contradicted, and unresolved claims. Use for deep grounding, stale-doc repair, or preparing a human review. Proposes evidence-backed corrections and per-repository verification updates; never equates freshness with correctness or automatically promotes trust.
+description: Checks documentation claims against current source and product evidence. Use for deep grounding, stale-document repair, or preparation for human review. Reports supported, contradicted, and unresolved claims, and proposes warranted corrections or verification updates without automatically changing the corpus or promoting trust.
 ---
 
-# verify-documentation-accuracy
+# Verify documentation accuracy
 
-Deep grounding, not the cheap changed-path check. A fresh document can be wrong;
-a stale document can still describe current behavior correctly.
+A fresh document can be wrong; a stale document can still be correct.
+Verify claims, not merely the existence of named symbols.
 
-## Setup
+## Before starting
 
-Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location.
-Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root. Bundled examples may be
-read as illustrations, never updated with real source evidence. Git and `uv` are
-prerequisites; [set-me-up](../set-me-up/SKILL.md) installs missing tools and configures
-the corpus. Use `uv run --locked --script` for helpers as in `retrieve-relevant-documentation`; uv manages
-Python and isolated dependencies. Surface missing tools or failed downloads.
+Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root.
+Use [Helper commands](../../reference/helpers.md) for plugin location, Git/uv
+requirements, and source access. Never put real evidence into bundled examples.
 
-## Procedure
+## Assess the document
 
-1. **Read the whole document.** Identify its scope, all substantive assertions, and
-   code references. Include rationale, negative claims, user behavior, limitations,
-   and cross-repository relationships, not just named entry points. Record the original
-   file contents for the eventual concurrency check.
-2. **Establish the baseline.** Batch selected docs through `check_staleness.py` with
-   the corpus registry and optional override, as in `retrieve-relevant-documentation`. Reuse unchanged,
-   clean checked SHAs from this session instead of refreshing twice. If a referenced
-   repository cannot refresh, report it as incomplete/not confirmed current; continue
-   reporting known results, but never declare the document fully verified.
-   If new dependencies emerge, resolve them through the registry and refresh once.
-   Do not switch branches, reset, stash, discover, or repair checkouts.
-3. **Re-derive every claim.** Read current source in the selected clean authoritative
-   checkouts. Check behavior and invariants, not merely symbol existence. Inspect changed
-   areas first, but do not skip unaffected claims when advancing a repository's
-   verification commit. Verify that reference paths cover the actual evidence.
-   Distinguish independent latest-main revisions from a compatible released product.
-   Separate task-branch behavior from the documentation baseline.
+1. **Identify claims.** Read the whole document and retain its original contents.
+   Include rationale, negative claims, product behavior, limitations, and
+   cross-repository relationships, not just entry points.
+2. **Establish the source baseline.** Run `check_staleness.py` for selected documents
+   using the registry and local override. Reuse session SHAs only while checkouts
+   remain unchanged and clean. Refresh newly discovered repositories once.
+   Report failed refreshes as incomplete/not confirmed current and preserve known
+   results; do not repair or substitute checkouts.
+3. **Re-derive the claims.** Inspect current source and verify that reference paths
+   cover the evidence. Changed areas are a starting point, not a reason to skip
+   other claims when advancing verification metadata. Product workflows and
+   historical motivation need separate evidence or knowledgeable confirmation.
+   Distinguish authoritative-branch behavior, task-branch differences, and
+   compatibility at a product release.
+4. **Report the assessment.** Use a table with claim, status (`supported`,
+   `contradicted`, `unresolved`), evidence (repository, file/symbol/line, checked
+   SHA, or non-code evidence), and proposed action. Explain contradictions and
+   missing evidence explicitly. Report grounding completeness, trust, and
+   freshness separately; unresolved claims prevent an unqualified verified result.
 
-   Report a claim table with: claim, status (`supported`, `contradicted`, `unresolved`),
-   evidence (repository, relative file and symbol/line, checked SHA), and proposed action.
-   Explain contradictions precisely. Missing access, product knowledge, or historical
-   evidence is unresolved, never agreement. Product workflows and limitations need
-   product evidence or confirmation by a knowledgeable person. Do not assert historical
-   motivation just because present code would be consistent with it.
-4. **Prepare corrections and metadata.** Propose a complete diff, not silent edits.
-   Only advance a repository's `verified_at` after its entire contribution is grounded
-   and any contradictions are corrected in the proposed text. Use the actual examined
-   commit, current date, and actual verifier (`agent` for agent work). Leave unchecked
-   entries unchanged. Unresolved claims prevent an unqualified verified result.
-   Removing an unsupported assertion is a substantive correction requiring approval,
-   not a way to hide uncertainty.
+## When an update is warranted
 
-   Preserve `human-reviewed` for an unchanged body and unchanged evidentiary scope
-   when only grounded metadata is updated; agent verification does not add human review.
-   Substantive agent corrections to a human-reviewed document downgrade it to
-   `agent-generated`, or `draft` if material grounding gaps remain.
-5. **Validate, approve, and apply.** Follow `capture-information-in-documentation`'s temporary-copy validation,
-   exact-diff approval, source/target concurrency checks, and post-write validation.
-   A verification request alone does not approve proposed changes. Report per-repository
-   results, overall grounding completeness, trust, and freshness separately.
-   Do not commit or push without separate authorization.
-6. **Human-review gate, when requested.** Present the exact final document and evidence
-   report to a human reviewer. Require explicit confirmation that they reviewed and
-   accept its full scope, including corrections; approval to save an agent diff is not
-   that confirmation. Product docs need someone with product knowledge. Ask for the
-   reviewer's identity rather than inventing it. Promote to `human-reviewed` only after
-   this acceptance and only with no material unresolved claims. Set a repository's
-   `verified_at.by` to the person only if they actually verified that contribution.
-   Trust is document-wide; one repository's named verifier never automatically promotes it.
+Prepare a complete correction/metadata diff. Advance a repository's `verified_at`
+only after checking its entire contribution and correcting contradictions in the
+proposal. Record the actual examined commit, current date, and `by: agent`;
+leave unchecked entries unchanged. Removing an unsupported claim is a correction
+requiring approval, not a way to hide uncertainty.
 
-## Reference
+Preserve `human-reviewed` only when the body and evidence scope are unchanged.
+Substantive agent corrections downgrade it to `agent-generated`, or `draft` if
+material grounding gaps remain.
 
-- [Capture workflow](../capture-information-in-documentation/SKILL.md)
+Use the [Proposal and approval workflow](../../reference/proposal-workflow.md)
+to validate, request exact-diff approval, and apply safely. A request to verify
+does not authorize changes, commits, or pushes.
+
+## When human review is requested
+
+Present the exact final document and evidence report. Require explicit acceptance
+of its full scope, including corrections, with no material unresolved claims.
+Approval to save a diff is **not** confirmation of human review.
+
+Ask for the reviewer's identity; product documents need someone with product
+knowledge. Promote to `human-reviewed` only after acceptance. Name a person in
+`verified_at.by` only for contributions they actually verified; one named verifier
+does not automatically promote the document.
+
+## References
+
+- [Helper commands and source safety](../../reference/helpers.md)
+- [Proposal and approval workflow](../../reference/proposal-workflow.md)
+- [Frontmatter contract](../../reference/frontmatter-schema.md)
 - [Trust and staleness](../../reference/staleness-convention.md)
+- [Repository configuration](../../reference/repository-registry.md)

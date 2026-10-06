@@ -26,6 +26,16 @@ class PluginTests(unittest.TestCase):
                 self.assertEqual(fm["name"], path.parent.name)
                 self.assertIsInstance(fm["description"], str)
                 self.assertTrue(fm["description"].strip())
+                self.assertLessEqual(len(fm["description"]), 1024)
+
+    def test_shared_workflow_references_are_direct(self):
+        for name in (
+            "capture-information-in-documentation", "verify-documentation-accuracy",
+        ):
+            text = (PLUGIN / "skills" / name / "SKILL.md").read_text()
+            with self.subTest(skill=name):
+                self.assertIn("../../reference/proposal-workflow.md", text)
+                self.assertIn("../../reference/helpers.md", text)
 
     def test_plugin_and_marketplace_versions_match(self):
         claude = json.loads((PLUGIN / ".claude-plugin/plugin.json").read_text())
@@ -47,10 +57,14 @@ class PluginTests(unittest.TestCase):
             _, links, _, _ = markdown_content(path.read_text())
             for link in links:
                 url = urlsplit(link)
-                if url.scheme or url.netloc or not url.path:
+                if url.scheme or url.netloc or not (url.path or url.fragment):
                     continue
                 with self.subTest(path=path, link=link):
-                    self.assertTrue((path.parent / unquote(url.path)).exists())
+                    target = path.parent / unquote(url.path) if url.path else path
+                    self.assertTrue(target.exists())
+                    if url.fragment and target.is_file() and target.suffix == ".md":
+                        _, _, anchors, _ = markdown_content(target.read_text())
+                        self.assertIn(unquote(url.fragment), anchors)
 
     def test_documented_helper_paths_resolve(self):
         references = []

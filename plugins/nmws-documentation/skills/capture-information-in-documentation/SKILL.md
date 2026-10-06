@@ -1,107 +1,66 @@
 ---
 name: capture-information-in-documentation
-description: Graduates durable understanding from a completed investigation into a concrete, approval-gated documentation diff. Use after a meaningful retrieve-relevant-documentation miss, corrected assumption, or source-grounded re-derivation; also when explicitly asked to capture understanding. Deduplicates against the corpus, grounds references per repository, validates the proposal, and never writes or commits without approval.
+description: Captures reusable code and product understanding in corpus documents. Use after a substantive investigation yields a new mental model, invariant, relationship, or corrected misconception, or when explicitly asked to document something. Proposes an evidence-backed diff; changes the corpus only after approval.
 ---
 
-# capture-information-in-documentation
+# Capture understanding in documentation
 
-Capture understanding that will prevent a future wrong
-turn, not a transcript or a restatement of code.
+Capture understanding that will prevent a future wrong turn, not a transcript
+or a restatement of code.
 
-## Trigger and destination
+## Before starting
 
-Use after a task yields a reusable mental model, relationship, invariant, rationale,
-or corrected misconception. A router miss is a candidate, not sufficient evidence.
-Skip trivial edits, already-covered discoveries, transient debugging notes, and
-sessions without durable learning. Do not offer capture after every task. An explicit
-request to document something permits preparation, not unsupported claims.
+Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root. Use
+[Helper commands](../../reference/helpers.md) for the plugin location and uv-managed
+execution. Git and uv are required. Real-source documents and evidence belong in
+the private corpus or private local artifacts, never the public plugin repository.
 
-Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT` when available, otherwise from this
-skill's location beneath the plugin root. Require an explicit `$NMWS_DOCS_CORPUS_ROOT`
-or a corpus root provided by the user. **Do not fall back to bundled examples for
-writes.** Source-derived documents and review/evaluation evidence belong only in the
-private corpus or private local artifacts, never this public plugin repository.
+## Workflow
 
-Git and `uv` are required; [set-me-up](../set-me-up/SKILL.md) installs missing tools
-and configures the corpus. Run helpers through `uv run --locked --script` so uv
-manages Python and isolated dependencies, not the user's project environment.
-Initial use may require downloads; failures block validation rather than being skipped.
+1. **Decide whether to capture.** Identify the durable question answered and what
+   a future reader would otherwise misunderstand. Skip transient debugging notes,
+   trivial edits, and already-covered discoveries. A retrieval miss alone does
+   not justify capture; do not offer it after every task.
+2. **Find its home.** Use `discover_docs.py` in `focused` mode, refine weak or
+   truncated results, and read likely overlaps and adjacent parents/counterparts.
+   Resolve navigation IDs with `--id`. Prefer updating an existing document;
+   if nothing adds durable value, say no capture is warranted.
+3. **Ground the discovery.** Resolve sources through the corpus registry and
+   local override. Reuse session SHAs only while the checked repositories remain
+   unchanged and clean; otherwise refresh the needed repositories once with
+   `refresh_repositories.py`. Examine the code establishing each claim, including
+   newly discovered dependencies. Separate task-branch behavior from authoritative
+   branch behavior. Product workflows, limitations, and historical rationale need
+   their own evidence or knowledgeable human confirmation, not inference from code.
+4. **Draft the update.** Use the [code](../../templates/code-doc.template.md) or
+   [product](../../templates/product-doc.template.md) template and the selected tier's
+   level of detail. Explain concepts, relationships, invariants, and why; name useful
+   entry points without restating signatures. State scope exclusions and preserve IDs.
+   Update parent/children links together and link existing cross-tree counterparts.
+   Link to procedures rather than absorbing how-tos; do not invent missing documents.
+5. **Propose, then apply.** Follow the
+   [Proposal and approval workflow](../../reference/proposal-workflow.md): validate
+   the complete proposed diff in a private copy, obtain approval for that exact diff,
+   check for concurrent changes, apply, and validate the real corpus.
 
-## Procedure
+## Evidence and metadata
 
-1. **Assess the learning.** Summarize the durable question answered and the discovery
-   that makes capture worthwhile. Carry forward any router gap, document IDs used,
-   source evidence, repository SHAs, and task-branch differences from the conversation.
-   Do not create a saved lookup snapshot or a new frontmatter field for this handoff.
-2. **Deduplicate.** Use the retrieval skill's bounded discovery helper:
-   ```sh
-   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/discover_docs.py" \
-     --corpus-root "$NMWS_DOCS_CORPUS_ROOT" --query "<durable question or component>" --mode focused
-   ```
-   Refine queries when necessary; a lexical miss or truncated shortlist does not prove
-   no overlap. Resolve adjacent parent/counterpart IDs with `--id <document-id>`,
-   then read bodies of likely overlaps and adjacent parents/counterparts. Prefer a surgical update to
-   an existing document. If nothing adds durable value, say no capture is warranted.
-   Do not generate an index or load the entire corpus's bodies.
-3. **Ground against authoritative source.** Resolve repositories through the corpus's
-   `repositories.yaml` and optional `repositories.local.yaml`; never discover, clone,
-   or repair checkouts. Reuse a successful router refresh only if its checked SHAs
-   and clean state are still unchanged. Otherwise refresh needed repositories once:
-   ```sh
-   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/refresh_repositories.py" \
-     <repository-id> [<other-id> ...] --registry <corpus-root>/repositories.yaml
-   ```
-   Add `--override <corpus-root>/repositories.local.yaml` when it exists.
-   Examine the source that establishes the proposed claims, including dependencies
-   outside previously recorded paths. Refresh success alone is not evidence.
-   Task-branch-only discoveries cannot be recorded as verified main behavior.
-   Product behavior, user workflows, limitations, and historical motivations need
-   their own evidence or knowledgeable human confirmation; do not invent them from code.
-4. **Prepare the full diff.** Use the appropriate
-   [code](../../templates/code-doc.template.md) or
-   [product](../../templates/product-doc.template.md) template. Keep the selected
-   tier's altitude: explain concepts, relationships, invariants, and why. Include
-   concrete entry points, but not signature inventories or line-by-line summaries.
-   Explicitly say what is not covered. Keep existing IDs stable.
+Keep `code_references` narrowly scoped but sufficient for all source-derived claims.
+For a new grounded document, use `trust: agent-generated`. For each repository,
+record the actual examined commit, current date, and `by: agent`.
+Advancing an existing repository's verification commit requires checking its
+**entire contribution to the document**, not just the added paragraph; use
+[Verify](../verify-documentation-accuracy/SKILL.md) when needed.
 
-   Fill `code_references` with narrowly scoped repository-relative paths covering
-   all source-derived claims and independent verification metadata for each repository.
-   For a new grounded doc, use the actual checked commit, current verification date,
-   `by: agent`, and `trust: agent-generated`. Updating an existing doc's verification
-   commit requires checking its **entire contribution from that repository**, not just
-   the new paragraph; use `verify-documentation-accuracy` when needed. Never stamp unchecked repositories.
-   Block persistence of unsupported new claims; an incomplete proposal may be shown as
-   `draft`, clearly stating missing evidence, but does not receive fabricated metadata.
-   If a substantive claim or its evidentiary scope changes in a `human-reviewed` doc,
-   downgrade to `agent-generated` pending renewed human review.
+Never stamp unchecked repositories or persist unsupported new claims. An incomplete
+proposal may be shown as `draft` with explicit gaps, but no fabricated metadata.
+Substantive changes to a `human-reviewed` document's claims or evidence scope require
+downgrading to `agent-generated` pending renewed human review.
 
-   Update parent/children links together; link an existing other-tree counterpart
-   through `related` and relative-path prose. Missing counterparts are not an excuse
-   to invent documents. Cross-link procedures rather than absorbing how-tos.
-5. **Validate before approval.** Materialize the proposal in a private temporary copy
-   of the corpus, preserving relative paths and the registry (no source checkouts need
-   copying). Apply the entire proposed diff there and run:
-   ```sh
-   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/validate_docs.py" \
-     --corpus-root <temporary-corpus-root>
-   ```
-   Validation is offline and does not use checkout paths. Resolve every error caused
-   by the proposal. Report pre-existing errors explicitly; do not claim the corpus
-   passes while they remain. Review every altitude warning manually. Present the
-   **exact validated diff**, affected document IDs, evidence/SHAs, trust changes, and
-   any verification gaps for yes/no approval. Never ask an open-ended "what should I write?"
-6. **Apply only the approved diff.** Approval must cover the concrete proposal.
-   Before applying, compare target documents to their pre-proposal contents and check
-   every consulted checkout with `git -C <checkout> rev-parse HEAD` and
-   `git -C <checkout> status --porcelain --untracked-files=all`. A changed SHA, dirty
-   checkout, or changed target invalidates the proposal: re-derive/revalidate and seek
-   renewed approval rather than overwriting edits. Respect a rejection without writing.
-   After applying, rerun validation in the real corpus and inspect the resulting diff.
-   Report exact paths written and trust/freshness; surface any failure explicitly.
-   Do not stage, commit, push, or promote trust without separate authorization.
-   Remove only the temporary artifacts created for this proposal.
+## References
 
-## Reference
-
-- [Frontmatter schema](../../reference/frontmatter-schema.md)
+- [Helper commands and source safety](../../reference/helpers.md)
+- [Proposal and approval workflow](../../reference/proposal-workflow.md)
+- [Frontmatter contract](../../reference/frontmatter-schema.md)
 - [Trust and staleness](../../reference/staleness-convention.md)
+- [Repository configuration](../../reference/repository-registry.md)
