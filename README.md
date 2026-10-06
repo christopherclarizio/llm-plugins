@@ -19,7 +19,7 @@ codex plugin add learning-goal@llm-plugins
 # etc...
 ```
 
-The Codex marketplace includes the Codex-native plugins listed below: `nmws-documentation`, `ed3d-plan-and-execute`, `ed3d-house-style`, `ed3d-playwright`, `learning-goal`, `learning-opportunities`, `learning-opportunities-auto`, and `orient`. The remaining packages currently rely on Claude-specific agents or hooks and remain available through the Claude Code marketplace.
+The Codex marketplace includes the Codex-native plugins listed below: `nmws-documentation`, `ed3d-plan-and-execute`, `ed3d-house-style`, `ed3d-playwright`, `learning-goal`, `learning-opportunities`, `learning-opportunities-auto`, `orient`, `ideas-to-tickets`, `clarizio-housestyle-coding`, and `clarizio-housestyle-voice`. The remaining packages currently rely on Claude-specific agents or hooks and remain available through the Claude Code marketplace.
 
 ### Claude Code
 
@@ -54,6 +54,8 @@ The Codex marketplace includes the Codex-native plugins listed below: `nmws-docu
 | **`orient`** | Create lessons to familiarize a repository and bodebase |
 | **`learning-goal`** | Structured interactive goal setting |
 | **`nmws-documentation`** | Structured documentation of code and product |
+| **`clarizio-housestyle-coding`** | Apply personal coding preferences to every session through a SessionStart hook |
+| **`clarizio-housestyle-voice`** | Apply personal voice, tone, and formatting preferences to every session through a SessionStart hook |
 | **`ideas-to-tickets`** | Turn rough ideas into concise, codebase-grounded Jira tickets; files-first with best-effort Jira MCP creation |
 
 ### Use
