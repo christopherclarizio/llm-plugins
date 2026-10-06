@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "NMWS Documentation",
     "shortDescription": "Build and maintain structured product documentation",
-    "longDescription": "Adds documentation routing, safe source refresh, approval-gated capture, deep verification, and offline validation for codebases and products.",
+    "longDescription": "Adds documentation routing, safe source refresh, capture, deep verification, and offline validation for codebases and products.",
     "developerName": "Chris Clarizio",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],

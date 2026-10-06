@@ -48,7 +48,7 @@ Preserve `human-reviewed` only when the body and evidence scope are unchanged.
 Substantive agent corrections downgrade it to `agent-generated`, or `draft` if
 material grounding gaps remain.
 
-Use the [Proposal and approval workflow](../../reference/proposal-workflow.md)
+Use the [Accuracy-verification workflow](../../reference/proposal-workflow.md#accuracy-verification)
 to validate, request exact-diff approval, and apply safely. A request to verify
 does not authorize changes, commits, or pushes.
 
@@ -66,7 +66,7 @@ does not automatically promote the document.
 ## References
 
 - [Helper commands and source safety](../../reference/helpers.md)
-- [Proposal and approval workflow](../../reference/proposal-workflow.md)
+- [Accuracy-verification workflow](../../reference/proposal-workflow.md#accuracy-verification)
 - [Frontmatter contract](../../reference/frontmatter-schema.md)
 - [Trust and staleness](../../reference/staleness-convention.md)
 - [Repository configuration](../../reference/repository-registry.md)

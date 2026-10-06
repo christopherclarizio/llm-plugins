@@ -1,6 +1,6 @@
 ---
 name: capture-information-in-documentation
-description: Captures reusable code and product understanding in corpus documents. Use after a substantive investigation yields a new mental model, invariant, relationship, or corrected misconception, or when explicitly asked to document something. Proposes an evidence-backed diff; changes the corpus only after approval.
+description: Captures reusable code and product understanding in corpus documents. Use after a substantive investigation yields a new mental model, invariant, relationship, or corrected misconception, or when explicitly asked to document something. Writes evidence-backed updates to the configured corpus.
 ---
 
 # Capture understanding in documentation
@@ -12,8 +12,8 @@ or a restatement of code.
 
 Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root. Use
 [Helper commands](../../reference/helpers.md) for the plugin location and uv-managed
-execution. Git and uv are required. Real-source documents and evidence belong in
-the private corpus or private local artifacts, never the public plugin repository.
+execution. Git and uv are required. Write documents beneath the selected corpus
+root. Real-source documents do not belong in the public plugin repository.
 
 ## Workflow
 
@@ -38,10 +38,11 @@ the private corpus or private local artifacts, never the public plugin repositor
    entry points without restating signatures. State scope exclusions and preserve IDs.
    Update parent/children links together and link existing cross-tree counterparts.
    Link to procedures rather than absorbing how-tos; do not invent missing documents.
-5. **Propose, then apply.** Follow the
-   [Proposal and approval workflow](../../reference/proposal-workflow.md): validate
-   the complete proposed diff in a private copy, obtain approval for that exact diff,
-   check for concurrent changes, apply, and validate the real corpus.
+5. **Write and validate.** Follow the
+   [Capture workflow](../../reference/proposal-workflow.md#capture): check for
+   concurrent changes, write the complete update beneath the selected corpus root,
+   and validate the corpus.
+   Report the exact paths written and any remaining gaps or validation failures.
 
 ## Evidence and metadata
 
@@ -50,17 +51,18 @@ For a new grounded document, use `trust: agent-generated`. For each repository,
 record the actual examined commit, current date, and `by: agent`.
 Advancing an existing repository's verification commit requires checking its
 **entire contribution to the document**, not just the added paragraph; use
-[Verify](../verify-documentation-accuracy/SKILL.md) when needed.
+[Verify](../verify-documentation-accuracy/SKILL.md) for claim assessment when needed.
+Write resulting capture changes through the capture workflow.
 
 Never stamp unchecked repositories or persist unsupported new claims. An incomplete
-proposal may be shown as `draft` with explicit gaps, but no fabricated metadata.
+document may be saved as `draft` with explicit gaps, but no fabricated metadata.
 Substantive changes to a `human-reviewed` document's claims or evidence scope require
 downgrading to `agent-generated` pending renewed human review.
 
 ## References
 
 - [Helper commands and source safety](../../reference/helpers.md)
-- [Proposal and approval workflow](../../reference/proposal-workflow.md)
+- [Documentation update workflow](../../reference/proposal-workflow.md)
 - [Frontmatter contract](../../reference/frontmatter-schema.md)
 - [Trust and staleness](../../reference/staleness-convention.md)
 - [Repository configuration](../../reference/repository-registry.md)

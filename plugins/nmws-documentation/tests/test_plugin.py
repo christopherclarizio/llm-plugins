@@ -47,6 +47,27 @@ class PluginTests(unittest.TestCase):
         self.assertTrue((PLUGIN / codex["skills"]).is_dir())
         self.assertEqual((PLUGIN.parents[1] / entry["source"]).resolve(), PLUGIN)
 
+    def test_capture_writes_to_corpus(self):
+        skill = PLUGIN / "skills/capture-information-in-documentation/SKILL.md"
+        self.assertIn("Writes evidence-backed updates to the configured corpus", frontmatter(skill)["description"])
+        text = skill.read_text()
+        self.assertIn("../../reference/proposal-workflow.md#capture", text)
+        self.assertIn("write the complete update beneath the selected corpus root", text)
+
+        workflow = (PLUGIN / "reference/proposal-workflow.md").read_text()
+        capture = workflow.split("## Capture\n", 1)[1].split("## Accuracy verification\n", 1)[0]
+        self.assertIn("beneath `$NMWS_DOCS_CORPUS_ROOT`", capture)
+        self.assertIn("Write the complete evidence-backed update", capture)
+        self.assertIn("Run `validate_docs.py` in the real corpus", capture)
+
+    def test_verification_requires_approval(self):
+        skill = (PLUGIN / "skills/verify-documentation-accuracy/SKILL.md").read_text()
+        self.assertIn("request exact-diff approval", skill)
+        workflow = (PLUGIN / "reference/proposal-workflow.md").read_text()
+        verification = workflow.split("## Accuracy verification\n", 1)[1]
+        self.assertIn("Request exact-diff approval", verification)
+        self.assertIn("Apply only the approved diff", verification)
+
     def test_workflow_reference_links_resolve(self):
         paths = [
             *sorted(PLUGIN.glob("*.md")),

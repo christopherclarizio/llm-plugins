@@ -90,7 +90,9 @@ Keep code references tightly scoped. When drift is detected, re-verify the affec
 claims and update the corresponding repository's `verified_at`. Keep document-wide
 trust honest; a verification entry naming a person does not automatically promote it.
 
-Use `verify-documentation-accuracy` for deep grounding and explicit human review. `capture-information-in-documentation` and
-`verify-documentation-accuracy` prepare validated diffs for approval; neither silently stamps fetched
-SHAs. Substantive agent changes to reviewed prose or evidentiary scope require renewed
-human review.
+Use `verify-documentation-accuracy` for deep grounding and explicit human review.
+`capture-information-in-documentation` writes grounded updates to the
+configured corpus; `verify-documentation-accuracy`
+prepares validated diffs for approval. Neither silently stamps fetched SHAs.
+Substantive agent changes to reviewed prose or evidentiary scope downgrade trust
+pending renewed human review.

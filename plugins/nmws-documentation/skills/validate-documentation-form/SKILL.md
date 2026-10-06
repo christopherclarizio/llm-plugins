@@ -27,7 +27,7 @@ Check the corpus's structure, not whether its claims are true.
 Do not auto-fix prose, update verification metadata, or promote trust.
 Requested repairs follow [Capture](../capture-information-in-documentation/SKILL.md)
 or [Verify](../verify-documentation-accuracy/SKILL.md) and the
-[Proposal and approval workflow](../../reference/proposal-workflow.md).
+[Documentation update workflow](../../reference/proposal-workflow.md).
 Structural success does not establish correctness, source coverage, freshness,
 or human review. Report missing tools or failed downloads, never a skipped check
 as success.

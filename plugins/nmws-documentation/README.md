@@ -10,17 +10,18 @@ The plugin supports a learning loop:
 
 1. **Retrieve** relevant documentation before investigating or changing a system.
 2. **Investigate** missing or uncertain information against source and product evidence.
-3. **Capture** useful discoveries in an existing document, or propose a new one when needed.
+3. **Capture** useful discoveries in an existing document, or create a new one when needed.
 4. **Maintain** documents by checking their structure and re-verifying their claims.
 
-Retrieval does not edit documents. Capture and verification propose concrete diffs
-for approval before changing the corpus; they do not commit or push automatically.
+Retrieval does not edit documents. Capture writes evidence-backed updates to the
+configured corpus. Accuracy verification proposes concrete diffs for approval
+before changing the corpus. Neither commits or pushes automatically.
 A lookup miss alone is not a reason to create documentation.
 
 For example, an agent investigating a playback issue might start with the playback
 architecture, follow a link to frame caching, and consult the corresponding product
 document for user-visible limitations. If the investigation uncovers an undocumented
-invariant, the agent proposes adding it to the relevant code document rather than
+invariant, the agent adds it to the relevant code document rather than
 creating a debugging diary.
 
 ## The documentation corpus
@@ -90,7 +91,7 @@ reports the gap and continues with source investigation.
 | --- | --- |
 | [set-me-up](skills/set-me-up/SKILL.md) | Configure tools and the corpus location. |
 | [retrieve-relevant-documentation](skills/retrieve-relevant-documentation/SKILL.md) | Get a task-specific briefing with trust and freshness citations. |
-| [capture-information-in-documentation](skills/capture-information-in-documentation/SKILL.md) | Propose a documentation update for durable new understanding. |
+| [capture-information-in-documentation](skills/capture-information-in-documentation/SKILL.md) | Write durable new understanding to the configured corpus. |
 | [verify-documentation-accuracy](skills/verify-documentation-accuracy/SKILL.md) | Assess claims and propose evidence-backed corrections or verification updates. |
 | [validate-documentation-form](skills/validate-documentation-form/SKILL.md) | Check metadata, hierarchy, document structure, and links. |
 
