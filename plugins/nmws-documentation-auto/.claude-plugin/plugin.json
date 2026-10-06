@@ -1,0 +1,10 @@
+{
+  "name": "nmws-documentation-auto",
+  "version": "0.1.0",
+  "description": "Optional reminders to offer consent-based capture of conversation findings. Requires nmws-documentation.",
+  "author": {
+    "name": "Chris Clarizio",
+    "email": "cclarizio@adobe.com"
+  },
+  "keywords": ["documentation", "capture", "conversation", "hooks"]
+}

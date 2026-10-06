@@ -17,6 +17,18 @@
       "category": "Productivity"
     },
     {
+      "name": "nmws-documentation-auto",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nmws-documentation-auto"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "ed3d-plan-and-execute",
       "source": {
         "source": "local",

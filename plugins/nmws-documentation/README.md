@@ -10,18 +10,48 @@ The plugin supports a learning loop:
 
 1. **Retrieve** relevant documentation before investigating or changing a system.
 2. **Investigate** missing or uncertain information against source and product evidence.
-3. **Capture** useful discoveries in an existing document, or create a new one when needed.
-4. **Maintain** documents by checking their structure and re-verifying their claims.
+3. **Offer capture** of durable conversation findings and wait for consent, or
+   capture directly when the user already requested it.
+4. **Capture** useful discoveries in an existing document, or create a new one when needed.
+5. **Maintain** documents by checking their structure and re-verifying their claims.
 
 Retrieval does not edit documents. Capture writes evidence-backed updates to the
 configured corpus. Accuracy verification proposes concrete diffs for approval
 before changing the corpus. Neither commits or pushes automatically.
 A lookup miss alone is not a reason to create documentation.
 
+### Capture offers
+
+Ask the **offer-documentation-capture** skill to review the current conversation
+for findings worth preserving. Reviewing the conversation is not authorization
+to write. The skill filters out routine edits, transient debugging notes,
+speculation, and already-covered findings, finds likely document homes, and asks
+before handing accepted findings to capture. It does not search other sessions
+or save transcripts or findings queues.
+
+For example: "We uncovered an undocumented ordering constraint that could cause
+stale reads. Capture it in the existing cache component documentation?"
+
+An explicit request to capture findings can invoke **capture-information-in-documentation**
+directly without a redundant offer. Accepting an offer authorizes capture of those
+findings, not staging, committing, pushing, or promoting trust. Findings that
+contradict existing documentation go through accuracy verification and its separate
+exact-diff approval.
+
+Install the optional [nmws-documentation-auto](../nmws-documentation-auto/README.md)
+companion for reminders at natural task boundaries, including read-only investigations,
+and after confirmed Git commits. Without the companion, conversation review remains
+available on request; retrieval does not automatically write its discoveries.
+Unsolicited offers are limited to two per session, never repeat the same finding,
+and stop after a decline. These limits track actual offers in conversation context,
+not hook nudges. If that history is lost after compaction or resume, unsolicited
+offers are suppressed rather than resetting the allowance. Explicit requests remain
+available.
+
 For example, an agent investigating a playback issue might start with the playback
 architecture, follow a link to frame caching, and consult the corresponding product
-document for user-visible limitations. If the investigation uncovers an undocumented
-invariant, the agent adds it to the relevant code document rather than
+document for user-visible limitations. With capture authorization, an undocumented
+invariant is added to the relevant code document rather than
 creating a debugging diary.
 
 ## The documentation corpus
@@ -91,6 +121,7 @@ reports the gap and continues with source investigation.
 | --- | --- |
 | [set-me-up](skills/set-me-up/SKILL.md) | Configure tools and the corpus location. |
 | [retrieve-relevant-documentation](skills/retrieve-relevant-documentation/SKILL.md) | Get a task-specific briefing with trust and freshness citations. |
+| [offer-documentation-capture](skills/offer-documentation-capture/SKILL.md) | Review current-conversation findings and ask before capture. |
 | [capture-information-in-documentation](skills/capture-information-in-documentation/SKILL.md) | Write durable new understanding to the configured corpus. |
 | [verify-documentation-accuracy](skills/verify-documentation-accuracy/SKILL.md) | Assess claims and propose evidence-backed corrections or verification updates. |
 | [validate-documentation-form](skills/validate-documentation-form/SKILL.md) | Check metadata, hierarchy, document structure, and links. |

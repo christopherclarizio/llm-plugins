@@ -45,8 +45,11 @@ investigate source. Keep the unanswered question, relevant document IDs, reposit
 SHAs, contradictions, and task-branch differences in the conversation, not a saved
 snapshot or gap queue.
 
-After the task, use [Capture](../capture-information-in-documentation/SKILL.md) only
-if meaningful reusable understanding emerged. Use
+After the task, if meaningful reusable understanding emerged and the user requested
+a capture review or `nmws-documentation-auto` reminders are active, use
+[Offer capture](../offer-documentation-capture/SKILL.md) and wait for consent.
+Use [Capture](../capture-information-in-documentation/SKILL.md) directly when the
+user already authorized capture of those findings. Use
 [Verify](../verify-documentation-accuracy/SKILL.md) to re-derive existing claims.
 Retrieval never writes documents or advances verification metadata.
 

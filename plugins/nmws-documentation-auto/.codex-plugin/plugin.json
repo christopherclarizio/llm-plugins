@@ -1,0 +1,21 @@
+{
+  "name": "nmws-documentation-auto",
+  "version": "0.1.0",
+  "description": "Optional reminders to offer consent-based capture of conversation findings. Requires nmws-documentation.",
+  "author": {
+    "name": "Chris Clarizio",
+    "email": "cclarizio@adobe.com"
+  },
+  "keywords": ["documentation", "capture", "conversation", "hooks"],
+  "hooks": "./hooks.codex.json",
+  "interface": {
+    "displayName": "NMWS Documentation Auto",
+    "shortDescription": "Offer to preserve durable conversation findings",
+    "longDescription": "Reminds the agent to review current-conversation findings at task boundaries and after confirmed Git commits. Requires nmws-documentation and user consent before capture.",
+    "developerName": "Chris Clarizio",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": ["Consider offering to capture durable findings from this conversation"],
+    "brandColor": "#2563EB"
+  }
+}

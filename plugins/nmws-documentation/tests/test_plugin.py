@@ -17,6 +17,7 @@ class PluginTests(unittest.TestCase):
         expected = {
             "retrieve-relevant-documentation", "capture-information-in-documentation",
             "verify-documentation-accuracy", "validate-documentation-form", "set-me-up",
+            "offer-documentation-capture",
         }
         paths = list((PLUGIN / "skills").glob("*/SKILL.md"))
         self.assertEqual({path.parent.name for path in paths}, expected)
@@ -46,6 +47,11 @@ class PluginTests(unittest.TestCase):
         self.assertEqual(claude["version"], entry["version"])
         self.assertTrue((PLUGIN / codex["skills"]).is_dir())
         self.assertEqual((PLUGIN.parents[1] / entry["source"]).resolve(), PLUGIN)
+        codex_marketplace = json.loads((PLUGIN.parents[1] / ".agents/plugins/marketplace.json").read_text())
+        codex_entry = next(item for item in codex_marketplace["plugins"] if item["name"] == codex["name"])
+        self.assertEqual((PLUGIN.parents[1] / codex_entry["source"]["path"]).resolve(), PLUGIN)
+        changelog = (PLUGIN.parents[1] / "CHANGELOG.md").read_text()
+        self.assertIn(f'{claude["name"]} {claude["version"]}', changelog)
 
     def test_capture_writes_to_corpus(self):
         skill = PLUGIN / "skills/capture-information-in-documentation/SKILL.md"
@@ -68,11 +74,35 @@ class PluginTests(unittest.TestCase):
         self.assertIn("Request exact-diff approval", verification)
         self.assertIn("Apply only the approved diff", verification)
 
+    def test_capture_offer_requires_scoped_consent(self):
+        offer = (PLUGIN / "skills/offer-documentation-capture/SKILL.md").read_text()
+        for requirement in (
+            "current conversation", "do not write drafts to the corpus",
+            "stop if the user declined", "two actual offers", "Hook nudges do not count",
+            "offered or captured already", "Stop and wait for",
+            "an affirmative response", "silence, cancellation, unrelated replies",
+            "exact-diff approval", "Do not include unrelated findings",
+            "insufficient", "Acceptance does not authorize staging",
+            "history is unavailable", "suppress unsolicited",
+            "unattended operation", "documentation corpus not configured",
+        ):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, offer)
+        self.assertIn("../capture-information-in-documentation/SKILL.md", offer)
+        self.assertIn("../verify-documentation-accuracy/SKILL.md", offer)
+        capture = (PLUGIN / "skills/capture-information-in-documentation/SKILL.md").read_text()
+        self.assertIn("Explicit capture requests do not need a redundant offer", capture)
+        self.assertIn("automatic reminder does not", capture)
+        retrieval = (PLUGIN / "skills/retrieve-relevant-documentation/SKILL.md").read_text()
+        self.assertIn("../offer-documentation-capture/SKILL.md", retrieval)
+        self.assertIn("user already authorized capture", retrieval)
+
     def test_workflow_reference_links_resolve(self):
         paths = [
             *sorted(PLUGIN.glob("*.md")),
             *sorted((PLUGIN / "reference").glob("*.md")),
             *sorted((PLUGIN / "skills").glob("*/SKILL.md")),
+            PLUGIN.parent / "nmws-documentation-auto/README.md",
         ]
         for path in paths:
             _, links, _, _ = markdown_content(path.read_text())

@@ -7,8 +7,8 @@
     "plugins": [
         {
             "name": "nmws-documentation",
-            "description": "Agent-first code and product documentation with routing, staleness checks, capture, grounding, and validation.",
-            "version": "0.3.0",
+            "description": "Agent-first code and product documentation with routing, staleness checks, consent-based capture offers, grounding, and validation.",
+            "version": "0.4.0",
             "source": "./plugins/nmws-documentation",
             "author": {
                 "name": "Chris Clarizio",
@@ -23,6 +23,22 @@
                 "capture",
                 "verification",
                 "validation"
+            ]
+        },
+        {
+            "name": "nmws-documentation-auto",
+            "description": "Optional reminders to offer consent-based capture of conversation findings. Requires nmws-documentation.",
+            "version": "0.1.0",
+            "source": "./plugins/nmws-documentation-auto",
+            "author": {
+                "name": "Chris Clarizio",
+                "email": "cclarizio@adobe.com"
+            },
+            "keywords": [
+                "documentation",
+                "capture",
+                "conversation",
+                "hooks"
             ]
         },
         {

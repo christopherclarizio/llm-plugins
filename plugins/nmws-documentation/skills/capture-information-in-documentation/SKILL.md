@@ -1,6 +1,6 @@
 ---
 name: capture-information-in-documentation
-description: Captures reusable code and product understanding in corpus documents. Use after a substantive investigation yields a new mental model, invariant, relationship, or corrected misconception, or when explicitly asked to document something. Writes evidence-backed updates to the configured corpus.
+description: Captures reusable code and product understanding in corpus documents. Use when explicitly asked to document findings or after the user accepts an offer-documentation-capture offer. Writes evidence-backed updates to the configured corpus.
 ---
 
 # Capture understanding in documentation
@@ -9,6 +9,12 @@ Capture understanding that will prevent a future wrong turn, not a transcript
 or a restatement of code.
 
 ## Before starting
+
+An explicit capture request or acceptance of a scoped capture offer authorizes
+this writing workflow. Loading this skill, finishing an investigation, or receiving
+an automatic reminder does not. Without capture authorization, use
+[Offer capture](../offer-documentation-capture/SKILL.md) and wait for consent.
+Explicit capture requests do not need a redundant offer.
 
 Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root. Use
 [Helper commands](../../reference/helpers.md) for the plugin location and uv-managed

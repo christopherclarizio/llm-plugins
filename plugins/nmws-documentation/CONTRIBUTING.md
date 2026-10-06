@@ -20,6 +20,18 @@ Coverage includes packaging/reference links, metadata discovery, source refresh,
 freshness checks, structural validation, and isolated helper execution. These
 tests do not establish agent-level retrieval or writing quality.
 
+The optional companion has dependency-free Node.js hook tests. With Node.js 20
+or newer, run them separately:
+
+```sh
+node --test "<repository-root>/plugins/nmws-documentation-auto/tests/hooks.test.mjs"
+```
+
+These exercise real hook subprocesses, successful and failed local Git commits,
+host payloads, reminder throttling, and packaging. Offer consent, duplicate-finding
+judgment, and decline handling are agent instructions, not a hook-side classifier;
+instruction contract tests cannot establish agent-level compliance.
+
 ## Maintain helper dependencies
 
 Each executable helper declares its Python version and dependencies in inline
