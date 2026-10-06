@@ -1,84 +1,100 @@
 # nmws-documentation
 
-Used to maintain an accurate, verifiably-up-to-date, hierarchical, corpus of documentation for a codebase and its associated product.
+Help coding agents reuse and maintain understanding of a codebase and its product.
+Capture the concepts, relationships, constraints, and user-facing behavior that are
+expensive to rediscover from source, not an inventory of code or a transcript of investigations.
 
-| Resource | Purpose |
+## How it works
+
+The plugin supports a learning loop:
+
+1. **Retrieve** relevant documentation before investigating or changing a system.
+2. **Investigate** missing or uncertain information against source and product evidence.
+3. **Capture** useful discoveries in an existing document, or propose a new one when needed.
+4. **Maintain** documents by checking their structure and re-verifying their claims.
+
+Retrieval does not edit documents. Capture and verification propose concrete diffs
+for approval before changing the corpus; they do not commit or push automatically.
+A lookup miss alone is not a reason to create documentation.
+
+For example, an agent investigating a playback issue might start with the playback
+architecture, follow a link to frame caching, and consult the corresponding product
+document for user-visible limitations. If the investigation uncovers an undocumented
+invariant, the agent proposes adding it to the relevant code document rather than
+creating a debugging diary.
+
+## The documentation corpus
+
+The **corpus** is the collection of documents maintained with this plugin. It lives
+outside the plugin and can describe a product implemented across several repositories.
+It has two connected trees:
+
+| Tree | Explains | Tiers, broad to focused |
+| --- | --- | --- |
+| **Code** | How the system is built: concepts, relationships, entry points, invariants, and rationale. | `architecture` → `subsystem` → `component` |
+| **Product** | What users can do: capabilities, workflows, context, limitations, and sharp edges. | `overview` → `feature` → `workflow` |
+
+Documents have a specific scope, including what they do **not** cover. Parent/child
+links support drill-down; cross-tree links connect behavior to implementation. Start
+broad for orientation or go directly to a focused document for a narrow question.
+Read only the documents the task needs.
+
+Each Markdown document has shared [frontmatter](reference/frontmatter-schema.md):
+a stable ID, routing description, tree and tier, navigation links, trust status,
+and code references with per-repository verification metadata.
+The [repository registry](reference/repository-registry.md) maps those references
+to configured source checkouts.
+
+```text
+<corpus-root>/
+  code/                     # Code documents
+  product/                  # Product documents
+  repositories.yaml         # Repository IDs and existing checkouts
+  repositories.local.yaml   # Optional local-path overrides; do not commit
+```
+
+Use the [code](templates/code-doc.template.md) and
+[product](templates/product-doc.template.md) templates for document structure.
+The bundled [examples](examples/) demonstrate the format; they are fabricated,
+not product knowledge, and are never substituted for an unconfigured corpus.
+
+## Trust, freshness, and correctness
+
+These answer different questions:
+
+| Signal | Question |
 | --- | --- |
-| [skills/**set-me-up**](skills/set-me-up/SKILL.md) | Installs missing uv/Git tools and configures the user's corpus location. |
-| [skills/**retrieve-relevant-documentation**](skills/retrieve-relevant-documentation/SKILL.md) | Finds relevant documentation and briefs agents with trust and freshness citations. |
-| [skills/**capture-information-in-documentation**](skills/capture-information-in-documentation/SKILL.md) | Turns durable discoveries into deduplicated, source-grounded documentation diffs for approval. |
-| [skills/**validate-documentation-form**](skills/validate-documentation-form/SKILL.md) | Checks frontmatter, references, hierarchy, body structure, scope exclusions, and links. |
-| [skills/**verify-documentation-accuracy**](skills/verify-documentation-accuracy/SKILL.md) | Re-derives document claims from current source and proposes corrections and verification updates. |
-| [reference/**frontmatter-schema.md**](reference/frontmatter-schema.md) | Defines the shared metadata contract for code and product documentation. |
-| [reference/**repository-registry.md**](reference/repository-registry.md) | Defines repository IDs, checkout configuration, local overrides, and safe refresh behavior. |
-| [reference/**staleness-convention.md**](reference/staleness-convention.md) | Defines drift detection, freshness results, and how trust affects documentation use. |
+| **Trust** | What review has this document received: `draft`, `agent-generated`, or `human-reviewed`? |
+| **Freshness** | Has referenced code changed since its recorded verification commit? |
+| **Accuracy verification** | Do the document's claims hold against the evidence examined now? |
 
-## Design Principles
+A fresh document can be wrong; a stale document can still be correct. Structural
+validation proves neither. Retrieval reports trust and freshness, and corroborates
+load-bearing claims from low-trust, stale, or incompletely checked documents.
+Product behavior and historical rationale need their own evidence, not inference
+from code alone. See the [trust and staleness rules](reference/staleness-convention.md).
 
-1. **Documentation follows the NMWS documentation contract** Every piece of documentation carries the same YAML frontmatter according to the NMWS documentation
-contract so that it can be used as part of the system. See [`reference/frontmatter-schema.md`](reference/frontmatter-schema.md).
-2. **Documentation captures code and product information** The documentation corpus
-contains documentation for the code **and** the product so that it can answer "how is this built / how does it work" *and* "what does this do for a user, how is it used, where does it fit, what are the sharp edges."
-3. **Documentation authorship and staleness are verifiable** Every piece of documentation can be checked for authorship and staleness so that it can be used 
-according to its accuracy.
-4. **Documentation is progressively disclosed** The documentation corpus forms a
-shallow hierarchy so that minimal context is needed for LLM agents to retrieve the
-relevant documentation.
+## Setup and use
 
-## Conceptual overview
+Provide an existing corpus directory to **set-me-up**. It checks Git and
+[uv](https://docs.astral.sh/uv/getting-started/installation/), installs missing tools
+when permitted, and persists `NMWS_DOCS_CORPUS_ROOT`. It does not create the corpus,
+configure repositories, or clone source. Restart the terminal/agent if needed.
 
-The collection of all documentation is called the **documentation corpus** or just
-**corpus**. One **corpus** can describe a product which spans several code repositories. 
+Configure the registry with clean checkouts on their authoritative branches,
+separate from feature work. Freshness checks fetch and fast-forward those checkouts;
+they never switch branches or discard edits. Without a configured corpus, retrieval
+reports the gap and continues with source investigation.
 
-Every piece of documentation contains YAML frontmatter which contains
-information as required by the **NMWS documentation contract**.
+| Skill | Use it to |
+| --- | --- |
+| [set-me-up](skills/set-me-up/SKILL.md) | Configure tools and the corpus location. |
+| [retrieve-relevant-documentation](skills/retrieve-relevant-documentation/SKILL.md) | Get a task-specific briefing with trust and freshness citations. |
+| [capture-information-in-documentation](skills/capture-information-in-documentation/SKILL.md) | Propose a documentation update for durable new understanding. |
+| [verify-documentation-accuracy](skills/verify-documentation-accuracy/SKILL.md) | Assess claims and propose evidence-backed corrections or verification updates. |
+| [validate-documentation-form](skills/validate-documentation-form/SKILL.md) | Check metadata, hierarchy, document structure, and links. |
 
-## Setup
-
-Run the **set-me-up** skill and provide the path to your documentation corpus.
-It checks for `uv` and Git, installs missing tools when permitted, and persists
-`NMWS_DOCS_CORPUS_ROOT` in your shell configuration (or Windows user environment).
-Restart the terminal/agent if necessary to inherit the setting. It does not create
-a corpus, clone repositories, or change repository configuration.
-
-The router uses `$NMWS_DOCS_CORPUS_ROOT` for the documentation corpus — point this
-at the vended docs location in your working repo. If the variable is unset or empty,
-it reports **"documentation corpus not configured"** and continues with source
-investigation without corpus lookup or freshness checks. It never substitutes the
-bundled examples.
-
-
-## Requirements and tests
-
-Only Git and [uv](https://docs.astral.sh/uv/getting-started/installation/) need to be
-installed. Run the helpers through uv:
-
-```sh
-uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/check_staleness.py \
-  <doc-path> --registry <corpus-root>/repositories.yaml
-uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/validate_docs.py \
-  --corpus-root <corpus-root>
-uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/discover_docs.py \
-  --corpus-root <corpus-root> --query "frame cache" --mode focused --limit 5
-```
-
-Each executable helper declares its Python version and dependencies in inline
-script metadata and ships an adjacent `.py.lock` file. uv automatically uses or
-downloads compatible Python and installs the locked dependencies into an isolated,
-cached environment. No manual Python, pip, or virtualenv setup is needed, and the
-working repository's Python project is not installed or modified. First use needs
-network access unless Python and dependencies are already available in uv's cache;
-download/permission failures are explicit errors, not skipped checks.
-
-For plugin development, `requirements.txt` supplies the test dependencies:
-
-```sh
-uv run --no-project --with-requirements <plugin-root>/requirements.txt \
-  python -m unittest discover -s <plugin-root>/tests -v
-```
-
-After changing a helper's dependency metadata, regenerate its bundled lockfile with
-`uv lock --script <helper-path>` and include that lockfile in the plugin update.
-
-Tests use temporary local Git repositories and need no proprietary code or remote
-source access. uv may need network access to provision Python and test/helper dependencies.
+Helpers run in uv-managed environments without installing dependencies into the
+working project. First use may need downloads; freshness checks need repository
+access. See [helper commands](reference/helpers.md) for direct use and
+[contributor guidance](CONTRIBUTING.md) for tests and dependency maintenance.
