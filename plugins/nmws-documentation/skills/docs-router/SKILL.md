@@ -30,15 +30,12 @@ be replaced before accessing real repositories.
 
 ## Prerequisites
 
-Git, Python 3.9+, and the plugin's `requirements.txt` (PyYAML) are required.
-Use an environment with these dependencies installed:
-
-```sh
-python3 -m pip install -r "${PLUGIN_ROOT}/requirements.txt"
-```
-
-Install only if the dependency is missing and installation is permitted. Surface
-missing tools/dependencies explicitly rather than skipping freshness checks.
+Git and `uv` are required. Use [set-me-up](../set-me-up/SKILL.md) to install missing
+tools and configure the corpus. Run helpers through `uv run --locked --script`;
+uv manages Python and isolated dependencies from inline metadata and bundled
+lockfiles, without pip or manual virtualenv setup. Initial use may require downloads.
+Surface missing tools or failed downloads explicitly rather than skipping freshness
+checks. Do not install dependencies into the user's project.
 
 ## Procedure
 
@@ -52,7 +49,7 @@ missing tools/dependencies explicitly rather than skipping freshness checks.
 4. **Refresh and check freshness.** Collect every doc whose body you loaded into one
    batch. For docs with `code_references`, use the corpus's `repositories.yaml`:
    ```sh
-   python3 "${PLUGIN_ROOT}/skills/docs-router/scripts/check_staleness.py" \
+   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/check_staleness.py" \
      <doc-path> [<other-loaded-doc-path> ...] --registry <corpus-root>/repositories.yaml
    ```
    Add `--override <corpus-root>/repositories.local.yaml` if that file exists.

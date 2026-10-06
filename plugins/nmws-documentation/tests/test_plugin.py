@@ -13,7 +13,10 @@ from validate_docs import markdown_content
 
 class PluginTests(unittest.TestCase):
     def test_write_skills_are_discoverable(self):
-        expected = {"docs-router", "docs-capture", "docs-verify", "docs-validate", "docs-evaluate"}
+        expected = {
+            "docs-router", "docs-capture", "docs-verify", "docs-validate",
+            "docs-evaluate", "set-me-up",
+        }
         paths = list((PLUGIN / "skills").glob("*/SKILL.md"))
         self.assertEqual({path.parent.name for path in paths}, expected)
         for path in paths:

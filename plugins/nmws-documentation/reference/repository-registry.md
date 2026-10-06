@@ -72,7 +72,7 @@ Ordinary Git fetch/fast-forward operations still update Git's own metadata.
 For checkout maintenance without checking documents:
 
 ```sh
-python3 <plugin-root>/skills/docs-router/scripts/refresh_repositories.py \
+uv run --locked --script <plugin-root>/skills/docs-router/scripts/refresh_repositories.py \
   scripting-napi scripting-types scripting-gateway \
   --registry <corpus-root>/repositories.yaml
 ```

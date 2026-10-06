@@ -398,6 +398,7 @@ class RepositoryTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertIn("PyYAML is required", result.stderr)
+        self.assertIn("uv run --locked --script", result.stderr)
         self.assertNotIn("Traceback", result.stderr)
 
 

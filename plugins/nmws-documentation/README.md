@@ -4,6 +4,7 @@ Used to maintain an accurate, verifiably-up-to-date, hierarchical, corpus of doc
 
 | Resource | Purpose |
 | --- | --- |
+| [skills/**set-me-up**](skills/set-me-up/SKILL.md) | Installs missing uv/Git tools and configures the user's corpus location. |
 | [skills/**docs-router**](skills/docs-router/SKILL.md) | Finds relevant documentation and briefs agents with trust and freshness citations. |
 | [skills/**docs-capture**](skills/docs-capture/SKILL.md) | Turns durable discoveries into deduplicated, source-grounded documentation diffs for approval. |
 | [skills/**docs-evaluate**](skills/docs-evaluate/SKILL.md) | Compares tasks with and without the corpus to measure correctness, wrong turns, and token usage. |
@@ -37,6 +38,12 @@ information as required by the **NWMS documentation contract**.
 
 ## Setup
 
+Run the **set-me-up** skill and provide the path to your documentation corpus.
+It checks for `uv` and Git, installs missing tools when permitted, and persists
+`NMWS_DOCS_CORPUS_ROOT` in your shell configuration (or Windows user environment).
+Restart the terminal/agent if necessary to inherit the setting. It does not create
+a corpus, clone repositories, or change repository configuration.
+
 The router looks for the documentation corpus in this order:
 
 1. `$NMWS_DOCS_CORPUS_ROOT`, if set — point this at the vended docs location in your
@@ -46,12 +53,33 @@ The router looks for the documentation corpus in this order:
 
 ## Requirements and tests
 
-Git, Python 3.9+, PyYAML, and markdown-it-py are required. Use your Python environment or a virtual
-environment, then install:
+Only Git and [uv](https://docs.astral.sh/uv/getting-started/installation/) need to be
+installed. Run the helpers through uv:
 
 ```sh
-python3 -m pip install -r <plugin-root>/requirements.txt
-python3 -m unittest discover -s <plugin-root>/tests -v
+uv run --locked --script <plugin-root>/skills/docs-router/scripts/check_staleness.py \
+  <doc-path> --registry <corpus-root>/repositories.yaml
+uv run --locked --script <plugin-root>/skills/docs-router/scripts/validate_docs.py \
+  --corpus-root <corpus-root>
 ```
 
-Tests use temporary local Git repositories; they need no network or proprietary code.
+Each executable helper declares its Python version and dependencies in inline
+script metadata and ships an adjacent `.py.lock` file. uv automatically uses or
+downloads compatible Python and installs the locked dependencies into an isolated,
+cached environment. No manual Python, pip, or virtualenv setup is needed, and the
+working repository's Python project is not installed or modified. First use needs
+network access unless Python and dependencies are already available in uv's cache;
+download/permission failures are explicit errors, not skipped checks.
+
+For plugin development, `requirements.txt` supplies the test dependencies:
+
+```sh
+uv run --no-project --with-requirements <plugin-root>/requirements.txt \
+  python -m unittest discover -s <plugin-root>/tests -v
+```
+
+After changing a helper's dependency metadata, regenerate its bundled lockfile with
+`uv lock --script <helper-path>` and include that lockfile in the plugin update.
+
+Tests use temporary local Git repositories and need no proprietary code or remote
+source access. uv may need network access to provision Python and test/helper dependencies.

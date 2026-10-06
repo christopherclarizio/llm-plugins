@@ -13,8 +13,9 @@ try:
     import yaml
 except ModuleNotFoundError:
     print(
-        "error: PyYAML is required; install the plugin's requirements.txt "
-        "with python -m pip install -r <plugin-root>/requirements.txt",
+        "error: PyYAML is required; run the helper with "
+        "uv run --locked --script <helper-path> [arguments] "
+        "so uv manages its dependencies",
         file=sys.stderr,
     )
     raise SystemExit(2)

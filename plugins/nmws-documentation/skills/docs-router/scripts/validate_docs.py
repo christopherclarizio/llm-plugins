@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["PyYAML>=6.0.2,<7", "markdown-it-py>=3,<4"]
+# ///
 """Validate a corpus's code/ and product/ Markdown documents without accessing Git.
 
 Exit codes: 0 valid (possibly warnings), 1 invalid documents, 2 configuration/read error.
@@ -20,7 +24,9 @@ try:
     from markdown_it import MarkdownIt
 except ModuleNotFoundError:
     print(
-        "error: markdown-it-py is required; install the plugin's requirements.txt",
+        "error: markdown-it-py is required; run the helper with "
+        "uv run --locked --script <helper-path> [arguments] "
+        "so uv manages its dependencies",
         file=sys.stderr,
     )
     raise SystemExit(2)

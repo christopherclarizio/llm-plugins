@@ -8,13 +8,16 @@ description: Runs deterministic validation of documentation frontmatter, reposit
 Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location.
 Use `$NMWS_DOCS_CORPUS_ROOT` or a corpus root provided by the user. To validate illustrative docs,
 use the bundled examples with `--registry <plugin-root>/examples/repositories.example.yaml`.
-Python 3.9+ and the plugin's `requirements.txt` are required. Report missing dependencies
-instead of skipping checks.
+`uv` is required; [set-me-up](../set-me-up/SKILL.md) installs missing tools and
+configures the corpus. uv manages Python and isolated dependencies from the script's
+metadata and bundled lockfile; no pip or manual virtualenv setup is needed. Initial
+use may require downloads. Report missing tools or failed downloads instead of
+skipping checks.
 
 Run:
 
 ```sh
-python3 "${PLUGIN_ROOT}/skills/docs-router/scripts/validate_docs.py" \
+uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/validate_docs.py" \
   --corpus-root <corpus-root>
 ```
 

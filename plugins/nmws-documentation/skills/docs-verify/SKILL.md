@@ -12,8 +12,10 @@ a stale document can still describe current behavior correctly.
 
 Resolve `PLUGIN_ROOT` from `CLAUDE_PLUGIN_ROOT`, otherwise this skill's location.
 Require `$NMWS_DOCS_CORPUS_ROOT` or a user-provided corpus root. Bundled examples may be
-read as illustrations, never updated with real source evidence. Git, Python 3.9+,
-and the plugin's `requirements.txt` are prerequisites; surface missing dependencies.
+read as illustrations, never updated with real source evidence. Git and `uv` are
+prerequisites; [set-me-up](../set-me-up/SKILL.md) installs missing tools and configures
+the corpus. Use `uv run --locked --script` for helpers as in `docs-router`; uv manages
+Python and isolated dependencies. Surface missing tools or failed downloads.
 
 ## Procedure
 

@@ -17,7 +17,7 @@ See [frontmatter-schema.md](frontmatter-schema.md) for the complete contract.
 ## The check
 
 ```sh
-python3 <plugin-root>/skills/docs-router/scripts/check_staleness.py \
+uv run --locked --script <plugin-root>/skills/docs-router/scripts/check_staleness.py \
   <doc.md> [<another-doc.md> ...] --registry <corpus-root>/repositories.yaml
 ```
 

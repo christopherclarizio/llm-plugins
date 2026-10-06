@@ -1,7 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["PyYAML>=6.0.2,<7"]
+# ///
 """Check documents' code references, refreshing registered repositories first.
 
-Usage: check_staleness.py <doc> [<doc> ...] --registry <repositories.yaml>
+Usage: uv run --locked --script check_staleness.py <doc> [<doc> ...] --registry <repositories.yaml>
 Exit codes: 0 fresh, 1 stale, 2 error/incomplete (even if other references are stale).
 """
 

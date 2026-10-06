@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --locked --script
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["PyYAML>=6.0.2,<7"]
+# ///
 """Refresh selected repositories without switching branches or discarding edits."""
 
 import argparse

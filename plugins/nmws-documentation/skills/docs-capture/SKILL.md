@@ -22,8 +22,10 @@ or a corpus root provided by the user. **Do not fall back to bundled examples fo
 writes.** Source-derived documents and review/evaluation evidence belong only in the
 private corpus or private local artifacts, never this public plugin repository.
 
-Git, Python 3.9+, and the plugin's `requirements.txt` are required. Install missing
-dependencies only when permitted; failures block validation rather than being skipped.
+Git and `uv` are required; [set-me-up](../set-me-up/SKILL.md) installs missing tools
+and configures the corpus. Run helpers through `uv run --locked --script` so uv
+manages Python and isolated dependencies, not the user's project environment.
+Initial use may require downloads; failures block validation rather than being skipped.
 
 ## Procedure
 
@@ -40,7 +42,7 @@ dependencies only when permitted; failures block validation rather than being sk
    or repair checkouts. Reuse a successful router refresh only if its checked SHAs
    and clean state are still unchanged. Otherwise refresh needed repositories once:
    ```sh
-   python3 "${PLUGIN_ROOT}/skills/docs-router/scripts/refresh_repositories.py" \
+   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/refresh_repositories.py" \
      <repository-id> [<other-id> ...] --registry <corpus-root>/repositories.yaml
    ```
    Add `--override <corpus-root>/repositories.local.yaml` when it exists.
@@ -74,7 +76,7 @@ dependencies only when permitted; failures block validation rather than being sk
    of the corpus, preserving relative paths and the registry (no source checkouts need
    copying). Apply the entire proposed diff there and run:
    ```sh
-   python3 "${PLUGIN_ROOT}/skills/docs-router/scripts/validate_docs.py" \
+   uv run --locked --script "${PLUGIN_ROOT}/skills/docs-router/scripts/validate_docs.py" \
      --corpus-root <temporary-corpus-root>
    ```
    Validation is offline and does not use checkout paths. Resolve every error caused
