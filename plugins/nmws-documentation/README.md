@@ -58,6 +58,8 @@ uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/sc
   <doc-path> --registry <corpus-root>/repositories.yaml
 uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/validate_docs.py \
   --corpus-root <corpus-root>
+uv run --locked --script <plugin-root>/skills/retrieve-relevant-documentation/scripts/discover_docs.py \
+  --corpus-root <corpus-root> --query "frame cache" --mode focused --limit 5
 ```
 
 Each executable helper declares its Python version and dependencies in inline

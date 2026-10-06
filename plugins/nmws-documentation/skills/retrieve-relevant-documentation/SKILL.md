@@ -36,13 +36,35 @@ checks. Do not install dependencies into the user's project.
 
 ## Procedure
 
-1. **Index cheaply.** Glob `code/**/*.md` and `product/**/*.md` under the corpus root and read **only** the
-   frontmatter of each (the block between the first pair of `---`). Do not read bodies yet.
-2. **Select.** Rank docs against the task using `description`, `keywords`, `tree`, and
-   `tier`. Prefer the coarsest matching `tier` first (`architecture`/`overview`), then drill.
+1. **Discover cheaply.** Run one local metadata scan instead of loading every document's
+   frontmatter into context:
+   ```sh
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/discover_docs.py" \
+     --corpus-root "$NMWS_DOCS_CORPUS_ROOT" --query "<task question or component>" \
+     --mode focused --limit 5
+   ```
+   Use `focused` for a narrow task: exact ID/title/keyword matches lead, then query-term
+   coverage and weighted field matches, with finer tiers breaking relevance ties.
+   Use `--mode orientation` for a broad introduction: coarser tiers lead among matching
+   docs. Query-free orientation is allowed to find corpus entry points.
+   Optionally filter with `--tree code` or `--tree product`.
+   JSON contains at most `--limit` candidates (default 5, maximum 20), corpus-relative
+   paths, routing metadata, navigation IDs, and match evidence. It also reports scanned
+   and matched counts and whether the shortlist was truncated. No bodies, saved index,
+   repository access, or freshness assertions. The local scan remains linear in corpus
+   size, but model context is limited to the shortlist.
+   Exit `0` includes an empty shortlist; `2` is a read/configuration/metadata error
+   with an explicit JSON error and stderr diagnostic, not proof of a coverage gap.
+2. **Select flexibly.** Treat the deterministic lexical order as a shortlist, not a
+   semantic verdict. Choose using the task, descriptions, keywords, tree, and tier.
+   Go directly to a precisely relevant component/workflow for narrow questions; start
+   with architecture/overview for orientation. If needed, refine the query or change
+   mode/tree rather than reading all frontmatter. A lexical miss is not proof that
+   the corpus has no semantic coverage.
 3. **Progressive disclosure.** Read the body of the top match. Follow its `children` and
    `related` links **only as far as the task needs**, and stop once you have enough. Never
-   load the whole tree.
+   load the whole tree. Resolve a navigation ID to its path and metadata with the same
+   helper's `--id <document-id>` instead of rescanning frontmatter in model context.
 4. **Refresh and check freshness.** Collect every doc whose body you loaded into one
    batch. For docs with `code_references`, use the corpus's `repositories.yaml`:
    ```sh
@@ -84,7 +106,8 @@ checks. Do not install dependencies into the user's project.
 - Assume refreshed checkouts remain unchanged during source reads; rerun the lookup
   if they change. Report task-branch differences separately from freshness on main.
 - Updating a checkout does not update a doc's `verified_at` or prove its claims.
-- Keep context lean: frontmatter for selection, bodies only for the branch you actually need.
+- Keep context lean: bounded metadata candidates for selection, bodies only for the
+  branch you actually need.
 
 ## Reference
 

@@ -33,8 +33,14 @@ Initial use may require downloads; failures block validation rather than being s
    that makes capture worthwhile. Carry forward any router gap, document IDs used,
    source evidence, repository SHAs, and task-branch differences from the conversation.
    Do not create a saved lookup snapshot or a new frontmatter field for this handoff.
-2. **Deduplicate.** Read corpus frontmatter under `code/` and `product/`, then bodies
-   of likely overlaps and adjacent parents/counterparts. Prefer a surgical update to
+2. **Deduplicate.** Use the retrieval skill's bounded discovery helper:
+   ```sh
+   uv run --locked --script "${PLUGIN_ROOT}/skills/retrieve-relevant-documentation/scripts/discover_docs.py" \
+     --corpus-root "$NMWS_DOCS_CORPUS_ROOT" --query "<durable question or component>" --mode focused
+   ```
+   Refine queries when necessary; a lexical miss or truncated shortlist does not prove
+   no overlap. Resolve adjacent parent/counterpart IDs with `--id <document-id>`,
+   then read bodies of likely overlaps and adjacent parents/counterparts. Prefer a surgical update to
    an existing document. If nothing adds durable value, say no capture is warranted.
    Do not generate an index or load the entire corpus's bodies.
 3. **Ground against authoritative source.** Resolve repositories through the corpus's

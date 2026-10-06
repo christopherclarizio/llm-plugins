@@ -18,7 +18,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-from repositories import DocumentationError, code_references, frontmatter, registry
+from repositories import TIERS, DocumentationError, code_references, frontmatter, registry
 
 try:
     from markdown_it import MarkdownIt
@@ -32,10 +32,6 @@ except ModuleNotFoundError:
     raise SystemExit(2)
 
 
-TIERS = {
-    "code": ("architecture", "subsystem", "component"),
-    "product": ("overview", "feature", "workflow"),
-}
 SECTIONS = {
     "code": (
         "Purpose & scope", "Concept", "Key entry points",

@@ -9,6 +9,7 @@ from pathlib import Path
 PLUGIN = Path(__file__).resolve().parents[1]
 SCRIPTS = PLUGIN / "skills/retrieve-relevant-documentation/scripts"
 DEPENDENCIES = {
+    "discover_docs.py": ["PyYAML>=6.0.2,<7"],
     "check_staleness.py": ["PyYAML>=6.0.2,<7"],
     "refresh_repositories.py": ["PyYAML>=6.0.2,<7"],
     "validate_docs.py": ["PyYAML>=6.0.2,<7", "markdown-it-py>=3,<4"],

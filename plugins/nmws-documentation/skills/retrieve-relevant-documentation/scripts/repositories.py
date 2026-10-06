@@ -25,6 +25,12 @@ class DocumentationError(Exception):
     """Invalid documentation/configuration or an unsuccessful repository operation."""
 
 
+TIERS = {
+    "code": ("architecture", "subsystem", "component"),
+    "product": ("overview", "feature", "workflow"),
+}
+
+
 class UniqueKeyLoader(yaml.SafeLoader):
     """Reject duplicate YAML keys instead of silently replacing configuration."""
 
@@ -65,14 +71,17 @@ def read_mapping(path: Path) -> dict:
 
 def frontmatter(doc: Path) -> dict:
     try:
-        lines = doc.read_text(encoding="utf-8").splitlines()
+        with doc.open("rb") as stream:
+            if stream.readline().decode("utf-8").strip() != "---":
+                raise DocumentationError(f"{doc}: missing opening frontmatter '---'")
+            lines = []
+            for raw_line in stream:
+                line = raw_line.decode("utf-8")
+                if line.strip() == "---":
+                    return load_mapping("".join(lines), doc)
+                lines.append(line)
     except (OSError, UnicodeError) as exc:
         raise DocumentationError(f"{doc}: {exc}") from exc
-    if not lines or lines[0].strip() != "---":
-        raise DocumentationError(f"{doc}: missing opening frontmatter '---'")
-    for i in range(1, len(lines)):
-        if lines[i].strip() == "---":
-            return load_mapping("\n".join(lines[1:i]), doc)
     raise DocumentationError(f"{doc}: missing closing frontmatter '---'")
 
 
