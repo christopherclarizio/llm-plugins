@@ -41,11 +41,11 @@ It checks for `uv` and Git, installs missing tools when permitted, and persists
 Restart the terminal/agent if necessary to inherit the setting. It does not create
 a corpus, clone repositories, or change repository configuration.
 
-The router looks for the documentation corpus in this order:
-
-1. `$NMWS_DOCS_CORPUS_ROOT`, if set — point this at the vended docs location in your
-   working repo.
-2. Otherwise the bundled [`examples/`](examples/), which are illustrative, not authoritative.
+The router uses `$NMWS_DOCS_CORPUS_ROOT` for the documentation corpus — point this
+at the vended docs location in your working repo. If the variable is unset or empty,
+it reports **"documentation corpus not configured"** and continues with source
+investigation without corpus lookup or freshness checks. It never substitutes the
+bundled examples.
 
 
 ## Requirements and tests

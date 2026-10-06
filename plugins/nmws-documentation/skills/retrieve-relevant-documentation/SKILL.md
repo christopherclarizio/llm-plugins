@@ -17,16 +17,13 @@ formatting pass, a one-line fix in code you already understand).
 
 ## Corpus location
 
-Resolve the docs corpus root in this order:
-
-1. `$NMWS_DOCS_CORPUS_ROOT`, if set.
-2. Otherwise `${CLAUDE_PLUGIN_ROOT}/examples` (bundled illustrative docs).
+Use `$NMWS_DOCS_CORPUS_ROOT` as the docs corpus root. If it is unset or empty,
+report **"documentation corpus not configured"**, skip corpus lookup and freshness
+checks, and continue with source investigation. Do not blockon corpus setup.
 
 `PLUGIN_ROOT` below means this plugin's installed directory: use `CLAUDE_PLUGIN_ROOT`
 when available, otherwise resolve it from this skill's location (`skills/retrieve-relevant-documentation/`
-is beneath the plugin root). Use the same fallback for locating bundled examples.
-Examples are fabricated illustrations, not authoritative knowledge; their configuration must
-be replaced before accessing real repositories.
+is beneath the plugin root). This fallback locates helpers, not a documentation corpus.
 
 ## Prerequisites
 
