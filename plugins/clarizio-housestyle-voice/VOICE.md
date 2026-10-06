@@ -37,6 +37,8 @@ Use only words required for purpose. Do not include filler or noise.
 - No business and marketing fluff (Bad: "powerful", "robust", "seamless")
 - Use direct language ("use" not "leverage", "show" not "illuminate")
 - Use acronyms for repeated, compound terms ("TDD" not "test driven development")
+- Describe things positively ("we can write the document" not "we can directly write the document without user approval")
+- No historical information if it's not strictly necessary for understanding (Bad: "... without requring us to any longer ...", "... so we no longer need to...") 
 
 ### 4. Consistency
 
@@ -47,4 +49,3 @@ Use same terminolgy, structre, and voice throughout.
 - Use consistent formatting
 - Maintain same tone across all content
 - Follow existing patterns for similar content types
-
