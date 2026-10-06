@@ -1,11 +1,11 @@
 ---
 name: docs-router
-description: Assembles relevant architecture and product documentation before reading code, including features spanning repositories. Use at the START of bug fixes, feature work, refactors, or investigations needing subsystem or product understanding. Selects docs by frontmatter, follows only the needed hierarchy, safely refreshes configured local checkouts, checks code references for drift, and briefs with trust and freshness citations. Skip trivial or mechanical edits.
+description: Retrieve relevant architecture, code, and product documentation from a NMWS documentation corpus. Use prior to working on of bug fixes, features, refactors, investigations, or when asked for explanations.
 ---
 
 # docs-router
 
-Read-loop entry point for the `nmws-documentation` corpus. It turns "understand this
+NMWS documentation is stored in a structured corpus. Use Read-loop entry point for the `nmws-documentation` corpus. It turns "understand this
 area before touching it" from ad-hoc code spelunking into a cheap, consistent lookup — and
 refuses to hand over a claim without flagging how much to trust it.
 
