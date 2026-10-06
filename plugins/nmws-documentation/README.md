@@ -30,8 +30,8 @@ relevant documentation.
 The collection of all documentation is called the **documentation corpus** or just
 **corpus**. One **corpus** can describe a product which spans several code repositories. 
 
-Every piece of documentation contains YMAL frontmatter which contains
-information as required by the **NWMS documentation contract**.
+Every piece of documentation contains YAML frontmatter which contains
+information as required by the **NMWS documentation contract**.
 
 ## Setup
 

@@ -7,7 +7,7 @@
     "plugins": [
         {
             "name": "nmws-documentation",
-            "description": "Agent-first code and product documentation with routing, staleness checks, approval-gated capture, grounding, validation, and evaluation.",
+            "description": "Agent-first code and product documentation with routing, staleness checks, approval-gated capture, grounding, and validation.",
             "version": "0.3.0",
             "source": "./plugins/nmws-documentation",
             "author": {

@@ -1,6 +1,6 @@
 ---
 name: retrieve-relevant-documentation
-description: Retrieve relevant architecture, code, and product documentation from a NMWS documentation corpus. Use prior to working on of bug fixes, features, refactors, investigations, or when asked for explanations.
+description: Retrieve relevant architecture, code, and product documentation from a NMWS documentation corpus. Use prior to working on bug fixes, features, refactors, investigations, or when asked for explanations.
 ---
 
 # retrieve-relevant-documentation
